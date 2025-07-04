@@ -4,179 +4,209 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geometry Area and Volume Calculator</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .input-group { margin-bottom: 10px; }
-        label { display: inline-block; width: 100px; }
-        input[type="number"] { width: 150px; }
-        #result { margin-top: 20px; font-weight: bold; color: blue; }
+        .shape-info { display: none; margin-top: 20px; }
+        .shape-info img { max-width: 180px; margin-bottom: 10px; }
+        .formula { font-family: 'Consolas', monospace; background: #f3f3f3; padding: 6px 12px; border-radius: 6px; display: inline-block; }
     </style>
 </head>
 <body>
-    <h1>Geometry Area and Volume Calculator</h1>
-
-    <form method="POST">
-        <div class="input-group">
-            <label for="shape_type">Select Shape:</label>
-            <select name="shape_type" id="shape_type" onchange="toggleInputs()">
-    <option value="">--Please choose an option--</option>
-    <option value="circle">Circle</option>
-    <option value="quadrilateral">Quadrilateral</option>
-    <option value="triangle">Triangle</option>
-    <option value="sphere">Sphere</option>
-    <option value="cylinder">Cylinder</option>
-    <option value="trapezium">Trapezium</option>
-    <option value="parallelogram">Parallelogram</option>
-    <option value="pentagon">Pentagon</option>
-    <option value="hexagon">Hexagon</option>
-    <option value="cuboid">Cuboid</option>
-    <option value="cone">Cone</option>
-    <option value="pyramid">Pyramid</option>
-    <option value="rhombus">Rhombus</option>
-    <option value="ellipse">Ellipse</option>
-    <option value="sector">Sector</option>
-    </select>
+   <div class="container">
+        <!-- Pyramid image before title -->
+        <div style="text-align:center;">
+            <img src="{{ url_for('static', filename='images/pyramid logo.png') }}" alt="Pyramid" style="height:70px;vertical-align:middle;margin-bottom:10px;">
         </div>
+        <h1 style="font-family:'Montserrat',sans-serif;">Geometry Area and Volume Calculator</h1>
+        <p style="text-align:center; font-size:1.1em; color:#444; margin-bottom:30px;">
+            Calculate area and volume for various geometric shapes. Select a shape to see its formula and required dimensions.
+        </p>
 
-        <div id="circle_inputs" class="input-group" style="display:none;">
-            <label for="radius">Radius:</label>
-            <input type="number" step="any" name="radius" id="radius">
-        </div>
-
-        <div id="quadrilateral_inputs" class="input-group" style="display:none;">
-            <label for="length">Length:</label>
-            <input type="number" step="any" name="length" id="length">
-            <label for="width">Width:</label>
-            <input type="number" step="any" name="width" id="width">
-        </div>
-
-        <div id="triangle_inputs" class="input-group" style="display:none;">
-            <h4>Triangle (choose type):</h4>
-            <select name="triangle_type" id="triangle_type" onchange="toggleTriangleInputs()">
-                <option value="">--Select Triangle Type--</option>
-                <option value="right_angle">Right Angle</option>
-                <option value="equilateral">Equilateral</option>
-                <option value="isosceles">Isosceles</option>
-                <option value="scalene">Scalene</option>
-                <option value="two_sides_one_angle">Two Sides and One Angle</option>
-            </select>
-
-            <div id="right_angle_triangle_inputs" class="sub-input-group" style="display:none;">
-                <label for="base">Base:</label><input type="number" step="any" name="base" id="base">
-                <label for="height_ra">Height:</label><input type="number" step="any" name="height_ra" id="height_ra">
+        <form method="POST" id="geometry-form">
+            <div class="input-group">
+                <label for="shape_type">Select Shape:</label>
+                <select name="shape_type" id="shape_type" onchange="toggleInputs(); showShapeInfo();">
+                    <option value="">--Please choose an option--</option>
+                    <option value="circle">Circle</option>
+                    <option value="quadrilateral">Rectangle</option>
+                    <option value="triangle">Triangle</option>
+                    <option value="pyramid">Pyramid</option>
+                    <option value="sphere">Sphere</option>
+                    <option value="cylinder">Cylinder</option>
+                    <option value="trapezium">Trapezium</option>
+                    <option value="parallelogram">Parallelogram</option>    
+                    <option value="pentagon">Pentagon</option>
+                    <option value="hexagon">Hexagon</option>
+                    <option value="cuboid">Cuboid</option>
+                    <option value="cone">Cone</option>
+                    <option value="rhombus">Rhombus</option>
+                    <option value="ellipse">Ellipse</option>
+                    <option value="sector">Sector</option>
+                </select>
             </div>
-            <div id="equilateral_triangle_inputs" class="sub-input-group" style="display:none;">
-                <label for="side_eq">Side:</label><input type="number" step="any" name="side_eq" id="side_eq">
+            <!-- Your existing dynamic input fields here -->
+            <div class="input-group" id="unit_group" style="display:none;">
+                <label for="unit_type">Select Unit:</label>
+                <select name="unit_type" id="unit_type">
+                    <option value="meters">Meters (m)</option>
+                    <option value="centimeters">Centimeters (cm)</option>
+                    <option value="millimeters">Millimeters (mm)</option>
+                    <option value="inches">Inches (in)</option>
+                    <option value="feet">Feet (ft)</option>
+                </select>
             </div>
-            <div id="isosceles_triangle_inputs" class="sub-input-group" style="display:none;">
-                <label for="side1_iso">Side1:</label><input type="number" step="any" name="side1_iso" id="side1_iso">
-                <label for="side2_iso">Side2 (base):</label><input type="number" step="any" name="side2_iso" id="side2_iso">
+            <button type="submit">Calculate Area</button>
+        </form>
+
+        <!-- Shape Info Section -->
+        <div id="shape-info-container">
+            <!-- Info for each shape will be shown here -->
+            <div id="circle-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/circle.png') }}" alt="Circle">
+                <div><b>Circle</b></div>
+                <div>Area formula: <span class="formula">A = π × r²</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>r</b> is the radius.</div>
+                <div class="desc">A circle is a round shape with all points equidistant from the center.</div>
             </div>
-            <div id="scalene_triangle_inputs" class="sub-input-group" style="display:none;">
-                <label for="side1_sc">Side1:</label><input type="number" step="any" name="side1_sc" id="side1_sc">
-                <label for="side2_sc">Side2:</label><input type="number" step="any" name="side2_sc" id="side2_sc">
-                <label for="side3_sc">Side3:</label><input type="number" step="any" name="side3_sc" id="side3_sc">
+            <div id="quadrilateral-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/rectangle.png') }}" alt="Rectangle">
+                <div><b>Rectangle</b></div>
+                <div>Area formula: <span class="formula">A = l × w</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>l</b> is length and <b>w</b> is width.</div>
+                <div class="desc">A rectangle has four sides and four right angles.</div>
             </div>
-            <div id="two_sides_one_angle_triangle_inputs" class="sub-input-group" style="display:none;">
-                <label for="side1_tsa">Side1:</label><input type="number" step="any" name="side1_tsa" id="side1_tsa">
-                <label for="side2_tsa">Side2:</label><input type="number" step="any" name="side2_tsa" id="side2_tsa">
-                <label for="angle_tsa">Angle (deg):</label><input type="number" step="any" name="angle_tsa" id="angle_tsa">
+            <div id="triangle-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/triangle.png') }}" alt="Triangle">
+                <div><b>Triangle</b></div>
+                <div>Area formula: <span class="formula">A = ½ × b × h</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>b</b> is base and <b>h</b> is height.</div>
+                <div class="desc">A triangle has three sides and the sum of its angles is 180°.</div>
+            </div>
+            <div id="pyramid-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/pyramid.png') }}" alt="Pyramid">
+                <div><b>Pyramid</b></div>
+                <div>Area formula: <span class="formula">A = base area + ½ × perimeter × slant height</span></div>
+                <div>Volume formula: <span class="formula">V = (1/3) × base area × height</span></div>
+                <div>Where <b>base area</b> is the area of the base, <b>height</b> is the vertical height.</div>
+                <div class="desc">A pyramid is a polyhedron formed by connecting a polygonal base and a point called the apex.</div>
+            </div>
+            <div id="sphere-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/sphere.png') }}" alt="Sphere">
+                <div><b>Sphere</b></div>
+                <div>Area formula: <span class="formula">A = 4 × π × r²</span></div>
+                <div>Volume formula: <span class="formula">V = (4/3) × π × r³</span></div>
+                <div>Where <b>r</b> is the radius.</div>
+                <div class="desc">A sphere is a perfectly round geometrical object in three-dimensional space.</div>
+            </div>
+            <div id="cylinder-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/cylinder.png') }}" alt="Cylinder">
+                <div><b>Cylinder</b></div>
+                <div>Area formula: <span class="formula">A = 2 × π × r × (r + h)</span></div>
+                <div>Volume formula: <span class="formula">V = π × r² × h</span></div>
+                <div>Where <b>r</b> is the radius and <b>h</b> is the height.</div>
+                <div class="desc">A cylinder has two parallel circular bases connected by a curved surface.</div>
+            </div>
+            <div id="trapezium-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/trapezium.png') }}" alt="Trapezium">
+                <div><b>Trapezium</b></div>
+                <div>Area formula: <span class="formula">A = ½ × (a + b) × h</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>a</b> and <b>b</b> are the lengths of the parallel sides and <b>h</b> is the height.</div>
+                <div class="desc">A trapezium has one pair of parallel sides.</div>
+            </div>
+            <div id="parallelogram-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/parallelogram.png') }}" alt="Parallelogram">
+                <div><b>Parallelogram</b></div>
+                <div>Area formula: <span class="formula">A = b × h</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>b</b> is the base and <b>h</b> is the height.</div>
+                <div class="desc">A parallelogram has opposite sides that are equal and parallel.</div> 
+            </div>
+            <div id="pentagon-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/pentagon.png') }}" alt="Pentagon">
+                <div><b>Pentagon</b></div>
+                <div>Area formula: <span class="formula">A = 1/4 × √(5(5 + 2√5)) × s²</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>s</b> is the length of a side.</div>
+                <div class="desc">A pentagon has five sides and five angles.</div>
+            </div>
+            <div id="hexagon-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/hexagon.png') }}" alt="Hexagon">
+                <div><b>Hexagon</b></div>
+                <div>Area formula: <span class="formula">A = (3√3/2) × s²</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>s</b> is the length of a side.</div>
+                <div class="desc">A hexagon has six sides and six angles.</div>
+            </div>
+            <div id="cuboid-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/cuboid.png') }}" alt="Cuboid">
+                <div><b>Cuboid</b></div>
+                <div>Area formula: <span class="formula">A = 2(lb + lh + wh)</span></div>
+                <div>Volume formula: <span class="formula">V = l × w × h</span></div>
+                <div>Where <b>l</b> is length, <b>w</b> is width, and <b>h</b> is height.</div>
+                <div class="desc">A cuboid has six rectangular faces.</div>
+            </div>  
+            <div id="cone-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/cone.png') }}" alt="Cone">
+                <div><b>Cone</b></div>
+                <div>Area formula: <span class="formula">A = πr(r + l)</span></div>
+                <div>Volume formula: <span class="formula">V = (1/3)πr²h</span></div>
+                <div>Where <b>r</b> is the radius and <b>l</b> is the slant height.</div>
+                <div class="desc">A cone has a circular base and a single vertex.</div>
+            </div>
+            <div id="rhombus-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/rhombus.png') }}" alt="Rhombus">
+                <div><b>Rhombus</b></div>
+                <div>Area formula: <span class="formula">A = (d1 × d2) / 2</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>d1</b> and <b>d2</b> are the lengths of the diagonals.</div>
+                <div class="desc">A rhombus is a quadrilateral with all sides equal in length.</div>
+            </div>
+            <div id="ellipse-info" class="shape-info">  
+                <img src="{{ url_for('static', filename='images/ellipse.png') }}" alt="Ellipse">
+                <div><b>Ellipse</b></div>
+                <div>Area formula: <span class="formula">A = π × a × b</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>a</b> is the semi-major axis and <b>b</b> is the semi-minor axis.</div>
+                <div class="desc">An ellipse is a shape that resembles a stretched circle.</div>
+            </div>
+            <div id="sector-info" class="shape-info">
+                <img src="{{ url_for('static', filename='images/sector.png') }}" alt="Sector">
+                <div><b>Sector</b></div>
+                <div>Area formula: <span class="formula">A = (θ/360) × πr²</span></div>
+                <div>Volume formula: <span class="formula">N/A</span></div>
+                <div>Where <b>r</b> is the radius and <b>θ</b> is the central angle in degrees.</div>
+                <div class="desc">A sector is a portion of a circle enclosed by two radii and an arc.</div>
             </div>
         </div>
 
-        <div id="sphere_inputs" class="input-group" style="display:none;">
-            <label for="radius_s">Radius:</label>
-            <input type="number" step="any" name="radius_s" id="radius_s">
+        <div id="result">
+            {% if result %}
+                <span style="color:blue; font-weight:bold; font-size:1.2em;">{{ result }}</span>
+            {% endif %}
         </div>
- 
-        <div id="cylinder_inputs" class="input-group" style="display:none;">
-            <label for="radius_c">Radius:</label>
-            <input type="number" step="any" name="radius_c" id="radius_c">
-            <label for="height_c">Height:</label>
-            <input type="number" step="any" name="height_c" id="height_c">
-        </div>
-        <div id="trapezium_inputs" class="input-group" style="display:none;">
-            <label for="base1">Base1:</label>
-            <input type="number" step="any" name="base1" id="base1">
-            <label for="base2">Base2:</label>
-            <input type="number" step="any" name="base2" id="base2">
-            <label for="height_t">Height:</label>
-            <input type="number" step="any" name="height_t" id="height_t">
-        </div>
-        <div id="parallelogram_inputs" class="input-group" style="display:none;">
-            <label for="base_p">Base:</label>
-            <input type="number" step="any" name="base_p" id="base_p">
-            <label for="height_p">Height:</label>
-            <input type="number" step="any" name="height_p" id="height_p">
-        </div>  
-        <div id="pentagon_inputs" class="input-group" style="display:none;">
-            <label for="side_p">Side:</label>
-            <input type="number" step="any" name="side_p" id="side_p">
-        </div>
-        <div id="hexagon_inputs" class="input-group" style="display:none;">
-            <label for="side_h">Side:</label>
-            <input type="number" step="any" name="side_h" id="side_h">
-        </div>
-        <div id="cuboid_inputs" class="input-group" style="display:none;">
-            <label for="length_cub">Length:</label>
-            <input type="number" step="any" name="length_cub" id="length_cub">
-            <label for="width_cub">Width:</label>
-            <input type="number" step="any" name="width_cub" id="width_cub">
-            <label for="height_cub">Height:</label>
-            <input type="number" step="any" name="height_cub" id="height_cub">
-        </div>
-        <div id="cone_inputs" class="input-group" style="display:none;">
-            <label for="radius_co">Radius:</label>
-            <input type="number" step="any" name="radius_co" id="radius_co">
-            <label for="height_co">Height:</label>
-            <input type="number" step="any" name="height_co" id="height_co">
-        </div>
-        <div id="pyramid_inputs" class="input-group" style="display:none;">
-            <label for="base_pyr">Base:</label>
-            <input type="number" step="any" name="base_pyr" id="base_pyr">
-            <label for="height_pyr">Height:</label>
-            <input type="number" step="any" name="height_pyr" id="height_pyr">
-        </div>
-        <div id="rhombus_inputs" class="input-group" style="display:none;">
-            <label for="diagonal1">Diagonal1:</label>
-            <input type="number" step="any" name="diagonal1" id="diagonal1">
-            <label for="diagonal2">Diagonal2:</label>
-            <input type="number" step="any" name="diagonal2" id="diagonal2">
-        </div>
-        <div id="ellipse_inputs" class="input-group" style="display:none;">
-            <label for="semi_major">Semi-Major Axis:</label>
-            <input type="number" step="any" name="semi_major" id="semi_major">
-            <label for="semi_minor">Semi-Minor Axis:</label>
-            <input type="number" step="any" name="semi_minor" id="semi_minor">
-        </div>
-        <div id="sector_inputs" class="input-group" style="display:none;">
-            <label for="radius_sec">Radius:</label>
-            <input type="number" step="any" name="radius_sec" id="radius_sec">
-            <label for="angle_sec">Angle (deg):</label>
-            <input type="number" step="any" name="angle_sec" id="angle_sec">
-        </div>
-        <div class="input-group" id="unit_group" style="display:none;">
-            <label for="unit_type">Select Unit:</label>
-            <select name="unit_type" id="unit_type">
-                <option value="meters">Meters (m)</option>
-                <option value="centimeters">Centimeters (cm)</option>
-                <option value="millimeters">Millimeters (mm)</option>
-                <option value="inches">Inches (in)</option>
-                <option value="feet">Feet (ft)</option>
-             </select>
-        </div>
-        <button type="submit">Calculate Area</button>
-    </form>
-
-    <div id="result">
-        {% if result %}
-            {# result will now include the unit, e.g., "Area: 12.56 sq meters" #}
-            {{ result }}
-         {% endif %}
     </div>
 
     <script>
+        // Show/hide shape info and images
+        function showShapeInfo() {
+            var shapes = ['circle', 'quadrilateral', 'triangle', 'pyramid'];
+            shapes.forEach(function(shape) {
+                document.getElementById(shape + '-info').style.display = 'none';
+            });
+            var selected = document.getElementById('shape_type').value;
+            if (selected && document.getElementById(selected + '-info')) {
+                document.getElementById(selected + '-info').style.display = 'block';
+            }
+        }
+        // Call on page load in case of POST
+        showShapeInfo();
+
         // Helper to hide all input groups
         function hideAllInputs() {
             const inputGroups = document.querySelectorAll('.input-group');

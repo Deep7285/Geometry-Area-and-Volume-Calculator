@@ -1,3 +1,31 @@
+/* Add to the top of your CSS file */
+body, h1, h2, h3, h4, h5, h6, p, label, input, select, button {
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.shape-info {
+    text-align: center;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s;
+}
+.shape-info img {
+    display: block;
+    margin: 0 auto 10px auto;
+    max-width: 180px;
+}
+.formula {
+    font-family: 'Consolas', monospace;
+    background: #f3f3f3;
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    margin: 5px 0;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 /* Basic Body Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
