@@ -1,0 +1,106 @@
+/* Basic Body Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    min-height: 100vh; /* Ensure body takes full viewport height */
+}
+
+/* Container for better layout */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Heading Styles */
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2em;
+}
+
+/* Input Group Styling */
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.input-group input[type="number"],
+.input-group select {
+    width: 100%; /* Make inputs take full width of their container */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    font-size: 1em;
+}
+
+.sub-input-group {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to next line */
+    gap: 10px; /* Space between sub-inputs */
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px dashed #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.sub-input-group label {
+    flex-basis: 80px; /* Give labels a fixed width */
+    margin-bottom: 0; /* Override input-group label margin */
+}
+
+.sub-input-group input[type="number"] {
+    flex-grow: 1; /* Allow inputs to take remaining space */
+    width: auto; /* Override 100% width for sub-inputs */
+}
+
+
+/* Button Styling */
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    width: 100%; /* Full width button */
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Result Display */
+#result {
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    border-radius: 5px;
+    color: #2e7d32;
+    text-align: center;
+    font-size: 1.2em;
+    word-wrap: break-word; /* Ensure long results wrap */
+}
