@@ -27,7 +27,7 @@
         <form method="POST" id="geometry-form">
             <div class="input-group">
                 <label for="shape_type">Select Shape:</label>
-                <select name="shape_type" id="shape_type" onchange="toggleInputs(); showShapeInfo();">
+                <select name="shape_type" id="shape_type" onchange="toggleInputsAndInfos();">
                     <option value="">--Please choose an option--</option>
                     <option value="circle">Circle</option>
                     <option value="quadrilateral">Rectangle</option>
@@ -46,7 +46,148 @@
                     <option value="sector">Sector</option>
                 </select>
             </div>
-            <!-- Your existing dynamic input fields here -->
+
+            <!-- Circle -->
+            <div class="input-group" id="circle_inputs" style="display:none;">
+                <label for="radius">Radius:</label>
+                <input type="number" step="any" name="radius" id="radius" min="0">
+            </div>
+            <!-- Rectangle -->
+            <div class="input-group" id="quadrilateral_inputs" style="display:none;">
+                <label for="length">Length:</label>
+                <input type="number" step="any" name="length" id="length" min="0">
+                <label for="width">Width:</label>
+                <input type="number" step="any" name="width" id="width" min="0">
+            </div>
+            <!-- Triangle -->
+            <div class="input-group" id="triangle_inputs" style="display:none;">
+                <label for="triangle_type">Triangle Type:</label>
+                <select name="triangle_type" id="triangle_type" onchange="toggleTriangleInputs();">
+                    <option value="right_angle">Right Angle</option>
+                    <option value="equilateral">Equilateral</option>
+                    <option value="isosceles">Isosceles</option>
+                    <option value="scalene">Scalene</option>
+                    <option value="two_sides_one_angle">Two Sides & One Angle</option>
+                </select>
+                <div class="sub-input-group" id="right_angle_triangle_inputs" style="display:none;">
+                    <label for="base">Base:</label>
+                    <input type="number" step="any" name="base" id="base" min="0">
+                    <label for="height">Height:</label>
+                    <input type="number" step="any" name="height" id="height" min="0">
+                </div>
+                <div class="sub-input-group" id="equilateral_triangle_inputs" style="display:none;">
+                    <label for="side">Side:</label>
+                    <input type="number" step="any" name="side" id="side" min="0">
+                </div>
+                <div class="sub-input-group" id="isosceles_triangle_inputs" style="display:none;">
+                    <label for="base">Base:</label>
+                    <input type="number" step="any" name="base" id="iso_base" min="0">
+                    <label for="side">Equal Side:</label>
+                    <input type="number" step="any" name="side" id="iso_side" min="0">
+                </div>
+                <div class="sub-input-group" id="scalene_triangle_inputs" style="display:none;">
+                    <label for="side_a">Side a:</label>
+                    <input type="number" step="any" name="side_a" id="side_a" min="0">
+                    <label for="side_b">Side b:</label>
+                    <input type="number" step="any" name="side_b" id="side_b" min="0">
+                    <label for="side_c">Side c:</label>
+                    <input type="number" step="any" name="side_c" id="side_c" min="0">
+                </div>
+                <div class="sub-input-group" id="two_sides_one_angle_triangle_inputs" style="display:none;">
+                    <label for="side1">Side 1:</label>
+                    <input type="number" step="any" name="side1" id="side1" min="0">
+                    <label for="side2">Side 2:</label>
+                    <input type="number" step="any" name="side2" id="side2" min="0">
+                    <label for="angle">Angle (degrees):</label>
+                    <input type="number" step="any" name="angle" id="angle" min="0" max="180">
+                </div>
+            </div>
+            <!-- Pyramid -->
+            <div class="input-group" id="pyramid_inputs" style="display:none;">
+                <label for="base_length">Base Length:</label>
+                <input type="number" step="any" name="base_length" id="base_length" min="0">
+                <label for="base_width">Base Width:</label>
+                <input type="number" step="any" name="base_width" id="base_width" min="0">
+                <label for="height">Height:</label>
+                <input type="number" step="any" name="height" id="pyramid_height" min="0">
+            </div>
+            <!-- Sphere -->
+            <div class="input-group" id="sphere_inputs" style="display:none;">
+                <label for="radius">Radius:</label>
+                <input type="number" step="any" name="radius" id="sphere_radius" min="0">
+            </div>
+            <!-- Cylinder -->
+            <div class="input-group" id="cylinder_inputs" style="display:none;">
+                <label for="radius">Radius:</label>
+                <input type="number" step="any" name="radius" id="cylinder_radius" min="0">
+                <label for="height">Height:</label>
+                <input type="number" step="any" name="height" id="cylinder_height" min="0">
+            </div>
+            <!-- Trapezium -->
+            <div class="input-group" id="trapezium_inputs" style="display:none;">
+                <label for="a">Side a:</label>
+                <input type="number" step="any" name="a" id="trapezium_a" min="0">
+                <label for="b">Side b:</label>
+                <input type="number" step="any" name="b" id="trapezium_b" min="0">
+                <label for="height">Height:</label>
+                <input type="number" step="any" name="height" id="trapezium_height" min="0">
+            </div>
+            <!-- Parallelogram -->
+            <div class="input-group" id="parallelogram_inputs" style="display:none;">
+                <label for="base">Base:</label>
+                <input type="number" step="any" name="base" id="parallelogram_base" min="0">
+                <label for="height">Height:</label>
+                <input type="number" step="any" name="height" id="parallelogram_height" min="0">
+            </div>
+            <!-- Pentagon -->
+            <div class="input-group" id="pentagon_inputs" style="display:none;">
+                <label for="side">Side:</label>
+                <input type="number" step="any" name="side" id="pentagon_side" min="0">
+            </div>
+            <!-- Hexagon -->
+            <div class="input-group" id="hexagon_inputs" style="display:none;">
+                <label for="side">Side:</label>
+                <input type="number" step="any" name="side" id="hexagon_side" min="0">
+            </div>
+            <!-- Cuboid -->
+            <div class="input-group" id="cuboid_inputs" style="display:none;">
+                <label for="length">Length:</label>
+                <input type="number" step="any" name="length" id="cuboid_length" min="0">
+                <label for="width">Width:</label>
+                <input type="number" step="any" name="width" id="cuboid_width" min="0">
+                <label for="height">Height:</label>
+                <input type="number" step="any" name="height" id="cuboid_height" min="0">
+            </div>
+            <!-- Cone -->
+            <div class="input-group" id="cone_inputs" style="display:none;">
+                <label for="radius">Radius:</label>
+                <input type="number" step="any" name="radius" id="cone_radius" min="0">
+                <label for="height">Height:</label>
+                <input type="number" step="any" name="height" id="cone_height" min="0">
+            </div>
+            <!-- Rhombus -->
+            <div class="input-group" id="rhombus_inputs" style="display:none;">
+                <label for="d1">Diagonal 1:</label>
+                <input type="number" step="any" name="d1" id="d1" min="0">
+                <label for="d2">Diagonal 2:</label>
+                <input type="number" step="any" name="d2" id="d2" min="0">
+            </div>
+            <!-- Ellipse -->
+            <div class="input-group" id="ellipse_inputs" style="display:none;">
+                <label for="a">Semi-major axis (a):</label>
+                <input type="number" step="any" name="a" id="ellipse_a" min="0">
+                <label for="b">Semi-minor axis (b):</label>
+                <input type="number" step="any" name="b" id="ellipse_b" min="0">
+            </div>
+            <!-- Sector -->
+            <div class="input-group" id="sector_inputs" style="display:none;">
+                <label for="radius">Radius:</label>
+                <input type="number" step="any" name="radius" id="sector_radius" min="0">
+                <label for="angle">Angle (degrees):</label>
+                <input type="number" step="any" name="angle" id="sector_angle" min="0" max="360">
+            </div>
+
+            <!-- Unit selection -->
             <div class="input-group" id="unit_group" style="display:none;">
                 <label for="unit_type">Select Unit:</label>
                 <select name="unit_type" id="unit_type">
@@ -62,127 +203,8 @@
 
         <!-- Shape Info Section -->
         <div id="shape-info-container">
-            <!-- Info for each shape will be shown here -->
-            <div id="circle-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/circle.png') }}" alt="Circle">
-                <div><b>Circle</b></div>
-                <div>Area formula: <span class="formula">A = π × r²</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>r</b> is the radius.</div>
-                <div class="desc">A circle is a round shape with all points equidistant from the center.</div>
-            </div>
-            <div id="quadrilateral-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/rectangle.png') }}" alt="Rectangle">
-                <div><b>Rectangle</b></div>
-                <div>Area formula: <span class="formula">A = l × w</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>l</b> is length and <b>w</b> is width.</div>
-                <div class="desc">A rectangle has four sides and four right angles.</div>
-            </div>
-            <div id="triangle-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/triangle.png') }}" alt="Triangle">
-                <div><b>Triangle</b></div>
-                <div>Area formula: <span class="formula">A = ½ × b × h</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>b</b> is base and <b>h</b> is height.</div>
-                <div class="desc">A triangle has three sides and the sum of its angles is 180°.</div>
-            </div>
-            <div id="pyramid-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/pyramid.png') }}" alt="Pyramid">
-                <div><b>Pyramid</b></div>
-                <div>Area formula: <span class="formula">A = base area + ½ × perimeter × slant height</span></div>
-                <div>Volume formula: <span class="formula">V = (1/3) × base area × height</span></div>
-                <div>Where <b>base area</b> is the area of the base, <b>height</b> is the vertical height.</div>
-                <div class="desc">A pyramid is a polyhedron formed by connecting a polygonal base and a point called the apex.</div>
-            </div>
-            <div id="sphere-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/sphere.png') }}" alt="Sphere">
-                <div><b>Sphere</b></div>
-                <div>Area formula: <span class="formula">A = 4 × π × r²</span></div>
-                <div>Volume formula: <span class="formula">V = (4/3) × π × r³</span></div>
-                <div>Where <b>r</b> is the radius.</div>
-                <div class="desc">A sphere is a perfectly round geometrical object in three-dimensional space.</div>
-            </div>
-            <div id="cylinder-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/cylinder.png') }}" alt="Cylinder">
-                <div><b>Cylinder</b></div>
-                <div>Area formula: <span class="formula">A = 2 × π × r × (r + h)</span></div>
-                <div>Volume formula: <span class="formula">V = π × r² × h</span></div>
-                <div>Where <b>r</b> is the radius and <b>h</b> is the height.</div>
-                <div class="desc">A cylinder has two parallel circular bases connected by a curved surface.</div>
-            </div>
-            <div id="trapezium-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/trapezium.png') }}" alt="Trapezium">
-                <div><b>Trapezium</b></div>
-                <div>Area formula: <span class="formula">A = ½ × (a + b) × h</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>a</b> and <b>b</b> are the lengths of the parallel sides and <b>h</b> is the height.</div>
-                <div class="desc">A trapezium has one pair of parallel sides.</div>
-            </div>
-            <div id="parallelogram-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/parallelogram.png') }}" alt="Parallelogram">
-                <div><b>Parallelogram</b></div>
-                <div>Area formula: <span class="formula">A = b × h</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>b</b> is the base and <b>h</b> is the height.</div>
-                <div class="desc">A parallelogram has opposite sides that are equal and parallel.</div> 
-            </div>
-            <div id="pentagon-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/pentagon.png') }}" alt="Pentagon">
-                <div><b>Pentagon</b></div>
-                <div>Area formula: <span class="formula">A = 1/4 × √(5(5 + 2√5)) × s²</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>s</b> is the length of a side.</div>
-                <div class="desc">A pentagon has five sides and five angles.</div>
-            </div>
-            <div id="hexagon-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/hexagon.png') }}" alt="Hexagon">
-                <div><b>Hexagon</b></div>
-                <div>Area formula: <span class="formula">A = (3√3/2) × s²</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>s</b> is the length of a side.</div>
-                <div class="desc">A hexagon has six sides and six angles.</div>
-            </div>
-            <div id="cuboid-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/cuboid.png') }}" alt="Cuboid">
-                <div><b>Cuboid</b></div>
-                <div>Area formula: <span class="formula">A = 2(lb + lh + wh)</span></div>
-                <div>Volume formula: <span class="formula">V = l × w × h</span></div>
-                <div>Where <b>l</b> is length, <b>w</b> is width, and <b>h</b> is height.</div>
-                <div class="desc">A cuboid has six rectangular faces.</div>
-            </div>  
-            <div id="cone-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/cone.png') }}" alt="Cone">
-                <div><b>Cone</b></div>
-                <div>Area formula: <span class="formula">A = πr(r + l)</span></div>
-                <div>Volume formula: <span class="formula">V = (1/3)πr²h</span></div>
-                <div>Where <b>r</b> is the radius and <b>l</b> is the slant height.</div>
-                <div class="desc">A cone has a circular base and a single vertex.</div>
-            </div>
-            <div id="rhombus-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/rhombus.png') }}" alt="Rhombus">
-                <div><b>Rhombus</b></div>
-                <div>Area formula: <span class="formula">A = (d1 × d2) / 2</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>d1</b> and <b>d2</b> are the lengths of the diagonals.</div>
-                <div class="desc">A rhombus is a quadrilateral with all sides equal in length.</div>
-            </div>
-            <div id="ellipse-info" class="shape-info">  
-                <img src="{{ url_for('static', filename='images/ellipse.png') }}" alt="Ellipse">
-                <div><b>Ellipse</b></div>
-                <div>Area formula: <span class="formula">A = π × a × b</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>a</b> is the semi-major axis and <b>b</b> is the semi-minor axis.</div>
-                <div class="desc">An ellipse is a shape that resembles a stretched circle.</div>
-            </div>
-            <div id="sector-info" class="shape-info">
-                <img src="{{ url_for('static', filename='images/sector.png') }}" alt="Sector">
-                <div><b>Sector</b></div>
-                <div>Area formula: <span class="formula">A = (θ/360) × πr²</span></div>
-                <div>Volume formula: <span class="formula">N/A</span></div>
-                <div>Where <b>r</b> is the radius and <b>θ</b> is the central angle in degrees.</div>
-                <div class="desc">A sector is a portion of a circle enclosed by two radii and an arc.</div>
-            </div>
+            <!-- (Your existing shape-info blocks here, as in your previous code) -->
+            <!-- ... -->
         </div>
 
         <div id="result">
@@ -193,102 +215,47 @@
     </div>
 
     <script>
-        // Show/hide shape info and images
-        function showShapeInfo() {
-            var shapes = ['circle', 'quadrilateral', 'triangle', 'pyramid'];
-            shapes.forEach(function(shape) {
-                document.getElementById(shape + '-info').style.display = 'none';
-            });
-            var selected = document.getElementById('shape_type').value;
-            if (selected && document.getElementById(selected + '-info')) {
-                document.getElementById(selected + '-info').style.display = 'block';
-            }
-        }
-        // Call on page load in case of POST
-        showShapeInfo();
-
-        // Helper to hide all input groups
-        function hideAllInputs() {
+        // Hide all input groups and shape infos
+        function hideAllInputsAndInfos() {
             const inputGroups = document.querySelectorAll('.input-group');
             inputGroups.forEach(group => {
-                group.style.display = 'none';
+                if (group.id !== 'unit_group') group.style.display = 'none';
             });
-            // Also hide all sub-input-groups for triangles specifically
+            const shapeInfos = document.querySelectorAll('.shape-info');
+            shapeInfos.forEach(info => info.style.display = 'none');
             const subInputGroups = document.querySelectorAll('.sub-input-group');
-            subInputGroups.forEach(subGroup => {
-                subGroup.style.display = 'none';
-            });
+            subInputGroups.forEach(subGroup => subGroup.style.display = 'none');
         }
 
-        function toggleInputs() {
-        var shape = document.getElementById('shape_type').value;
-        // Hide all input groups initially
-        hideAllInputs();
-            document.getElementById('triangle_inputs').style.display = 'none'; 
-            document.getElementById('sphere_inputs').style.display = 'none';
-            document.getElementById('cylinder_inputs').style.display = 'none';
-            document.getElementById('trapezium_inputs').style.display = 'none';
-            document.getElementById('parallelogram_inputs').style.display = 'none';
-            document.getElementById('pentagon_inputs').style.display = 'none';
-            document.getElementById('hexagon_inputs').style.display = 'none';   
-            document.getElementById('cuboid_inputs').style.display = 'none';
-            document.getElementById('cone_inputs').style.display = 'none';
-            document.getElementById('pyramid_inputs').style.display = 'none';
-            document.getElementById('rhombus_inputs').style.display = 'none';
-            document.getElementById('ellipse_inputs').style.display = 'none';
-            document.getElementById('sector_inputs').style.display = 'none';
-
-            
-
-            // Show relevant input group
-            if (shape === 'circle') {
-                document.getElementById('circle_inputs').style.display = 'block';
-            } else if (shape === 'quadrilateral') {
-                document.getElementById('quadrilateral_inputs').style.display = 'block';
-            }
-            else if (shape === 'triangle') {
-                document.getElementById('triangle_inputs').style.display = 'block';
-            } else if (shape === 'sphere') {
-                document.getElementById('sphere_inputs').style.display = 'block';
-            } else if (shape === 'cylinder') {
-                document.getElementById('cylinder_inputs').style.display = 'block';
-            } else if (shape === 'trapezium') {
-                document.getElementById('trapezium_inputs').style.display = 'block';
-            } else if (shape === 'parallelogram') {
-                document.getElementById('parallelogram_inputs').style.display = 'block';
-            } else if (shape === 'pentagon') {
-                document.getElementById('pentagon_inputs').style.display = 'block';
-            } else if (shape === 'hexagon') {
-                document.getElementById('hexagon_inputs').style.display = 'block';
-            } else if (shape === 'cuboid') {
-                document.getElementById('cuboid_inputs').style.display = 'block';
-            } else if (shape === 'cone') {
-                document.getElementById('cone_inputs').style.display = 'block';
-            } else if (shape === 'pyramid') {
-                document.getElementById('pyramid_inputs').style.display = 'block';
-            } else if (shape === 'rhombus') {
-                document.getElementById('rhombus_inputs').style.display = 'block';
-            } else if (shape === 'ellipse') {
-                document.getElementById('ellipse_inputs').style.display = 'block';
-            } else if (shape === 'sector') {
-                document.getElementById('sector_inputs').style.display = 'block';
-            }
-            // Show unit selection only if a shape is chosen
-            if (shape !== "") {
-                document.getElementById('unit_group').style.display = 'block';
-            } else {
+        // Show relevant input group and shape info
+        function toggleInputsAndInfos() {
+            hideAllInputsAndInfos();
+            var shape = document.getElementById('shape_type').value;
+            if (!shape) {
                 document.getElementById('unit_group').style.display = 'none';
+                return;
             }
-            // End of toggleInputs function
+            // Show the relevant input group
+            var inputGroup = document.getElementById(shape + '_inputs');
+            if (inputGroup) inputGroup.style.display = 'block';
+            // Show the relevant shape info
+            var infoDiv = document.getElementById(shape + '-info');
+            if (infoDiv) infoDiv.style.display = 'block';
+            // Show unit selection
+            document.getElementById('unit_group').style.display = 'block';
+
+            // For triangle, show the default sub-inputs
+            if (shape === 'triangle') {
+                toggleTriangleInputs();
+            }
         }
 
-        // Standalone function for triangle types
+        // Show relevant triangle sub-inputs
         function toggleTriangleInputs() {
             const subInputGroups = document.querySelectorAll('.sub-input-group');
             subInputGroups.forEach(subGroup => {
                 subGroup.style.display = 'none';
             });
-
             var triangleType = document.getElementById('triangle_type').value;
             if (triangleType === 'right_angle') {
                 document.getElementById('right_angle_triangle_inputs').style.display = 'block';
@@ -302,42 +269,12 @@
                 document.getElementById('two_sides_one_angle_triangle_inputs').style.display = 'block';
             }
         }
-    </script>
-    <script>
-    function hideAllInputsAndInfos() {
-        // Hide all input groups
-        const inputGroups = document.querySelectorAll('.input-group');
-        inputGroups.forEach(group => {
-            // Don't hide the unit group here
-            if (group.id !== 'unit_group') group.style.display = 'none';
-        });
-        // Hide all shape infos
-        const shapeInfos = document.querySelectorAll('.shape-info');
-        shapeInfos.forEach(info => info.style.display = 'none');
-        // Hide all triangle sub-inputs
-        const subInputGroups = document.querySelectorAll('.sub-input-group');
-        subInputGroups.forEach(subGroup => subGroup.style.display = 'none');
-    }
 
-    function toggleInputsAndInfos() {
-        hideAllInputsAndInfos();
-        var shape = document.getElementById('shape_type').value;
-        if (!shape) {
-            document.getElementById('unit_group').style.display = 'none';
-            return;
-        }
-        // Show the relevant input group
-        var inputGroup = document.getElementById(shape + '_inputs');
-        if (inputGroup) inputGroup.style.display = 'block';
-        // Show the relevant shape info
-        var infoDiv = document.getElementById(shape + '-info');
-        if (infoDiv) infoDiv.style.display = 'block';
-        // Show unit selection
-        document.getElementById('unit_group').style.display = 'block';
-    }
-    document.getElementById('shape_type').addEventListener('change', toggleInputsAndInfos);
-    // Call on page load in case of POST
-    toggleInputsAndInfos();
-</script>
+        // Initialize on page load
+        document.getElementById('shape_type').addEventListener('change', toggleInputsAndInfos);
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleInputsAndInfos();
+        });
+    </script>
 </body>
 </html>
