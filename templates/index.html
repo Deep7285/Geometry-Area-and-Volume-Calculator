@@ -303,5 +303,41 @@
             }
         }
     </script>
+    <script>
+    function hideAllInputsAndInfos() {
+        // Hide all input groups
+        const inputGroups = document.querySelectorAll('.input-group');
+        inputGroups.forEach(group => {
+            // Don't hide the unit group here
+            if (group.id !== 'unit_group') group.style.display = 'none';
+        });
+        // Hide all shape infos
+        const shapeInfos = document.querySelectorAll('.shape-info');
+        shapeInfos.forEach(info => info.style.display = 'none');
+        // Hide all triangle sub-inputs
+        const subInputGroups = document.querySelectorAll('.sub-input-group');
+        subInputGroups.forEach(subGroup => subGroup.style.display = 'none');
+    }
+
+    function toggleInputsAndInfos() {
+        hideAllInputsAndInfos();
+        var shape = document.getElementById('shape_type').value;
+        if (!shape) {
+            document.getElementById('unit_group').style.display = 'none';
+            return;
+        }
+        // Show the relevant input group
+        var inputGroup = document.getElementById(shape + '_inputs');
+        if (inputGroup) inputGroup.style.display = 'block';
+        // Show the relevant shape info
+        var infoDiv = document.getElementById(shape + '-info');
+        if (infoDiv) infoDiv.style.display = 'block';
+        // Show unit selection
+        document.getElementById('unit_group').style.display = 'block';
+    }
+    document.getElementById('shape_type').addEventListener('change', toggleInputsAndInfos);
+    // Call on page load in case of POST
+    toggleInputsAndInfos();
+</script>
 </body>
 </html>
