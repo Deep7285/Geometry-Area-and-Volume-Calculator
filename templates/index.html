@@ -575,33 +575,11 @@
             triangleTypeSelect.addEventListener('change', toggleTriangleInputs);
         }
 
-        // --- New Logic for handling POST requests and preserving state ---
-        const formData = {{ form_data | tojson }}; // Get form data passed from Flask
-        if (Object.keys(formData).length > 0) { // Check if form_data is not empty (i.e., it's a POST request)
-            // Restore shape and unit selection
-            document.getElementById('shape_type').value = formData.shape_type || '';
-            document.getElementById('unit_type').value = formData.unit_type || 'meters'; // Default if none selected
-
-            // Restore other input values
-            for (const key in formData) {
-                const inputElement = document.getElementById(key);
-                if (inputElement) {
-                    inputElement.value = formData[key];
-                }
-            }
-
-            // Trigger the toggle to show the correct fields for the restored shape
+        // If a result is present from a previous POST request, ensure the relevant inputs are shown
+        // This makes the page state persistent after a calculation
+        const initialShape = document.getElementById('shape_type').value;
+        if (initialShape) {
             toggleInputsAndInfos();
-            
-            // Mark the result div so hideAllDynamicElements doesn't clear it immediately
-            const resultDiv = document.getElementById('result');
-            if (resultDiv && resultDiv.innerHTML.trim() !== '') {
-                resultDiv.dataset.freshResult = 'true';
-            }
-            // After showing the fields, remove the flag for future interactions
-            setTimeout(() => {
-                if (resultDiv) resultDiv.dataset.freshResult = 'false';
-            }, 100); 
         }
     });
 </script>
