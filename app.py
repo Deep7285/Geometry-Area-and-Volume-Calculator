@@ -205,7 +205,6 @@ def index():
     form_data = {} 
     
     if request.method == 'POST':
-        form_data = request.form.to_dict()
         shape_type = request.form.get('shape_type')
         unit = request.form.get('unit_type', 'units') 
         
