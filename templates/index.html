@@ -491,65 +491,70 @@
         </div>
     </div>
     <script>
-        // Hide all input groups and shape infos
-        function hideAllInputsAndInfos() {
-            const inputGroups = document.querySelectorAll('.input-group');
-            inputGroups.forEach(group => {
-                if (group.id !== 'unit_group') group.style.display = 'none';
-            });
-            const shapeInfos = document.querySelectorAll('.shape-info');
-            shapeInfos.forEach(info => info.style.display = 'none');
-            const subInputGroups = document.querySelectorAll('.sub-input-group');
-            subInputGroups.forEach(subGroup => subGroup.style.display = 'none');
-            document.getElementById('unit_group').style.display = 'none';
-            document.getElementById('calc-btn').style.display = 'none';
-        }
-
-        // Show relevant input group and shape info
-        function toggleInputsAndInfos() {
-            hideAllInputsAndInfos();
-            var shape = document.getElementById('shape_type').value;
-            if (!shape) return;
-            // Show the relevant input group
-            var inputGroup = document.getElementById(shape + '_inputs');
-            if (inputGroup) inputGroup.style.display = 'block';
-            // Show the relevant shape info
-            var infoDiv = document.getElementById(shape + '-info');
-            if (infoDiv) infoDiv.style.display = 'flex';
-            // Show unit selection and button
-            document.getElementById('unit_group').style.display = 'block';
-            document.getElementById('calc-btn').style.display = 'block';
-            // For triangle, show the default sub-inputs
-            if (shape === 'triangle') {
-                toggleTriangleInputs();
-            }
-        }
-
-        // Show relevant triangle sub-inputs
-        function toggleTriangleInputs() {
-            const subInputGroups = document.querySelectorAll('.sub-input-group');
-            subInputGroups.forEach(subGroup => {
-                subGroup.style.display = 'none';
-            });
-            var triangleType = document.getElementById('triangle_type').value;
-            if (triangleType === 'right_angle') {
-                document.getElementById('right_angle_triangle_inputs').style.display = 'block';
-            } else if (triangleType === 'equilateral') {
-                document.getElementById('equilateral_triangle_inputs').style.display = 'block';
-            } else if (triangleType === 'isosceles') {
-                document.getElementById('isosceles_triangle_inputs').style.display = 'block';
-            } else if (triangleType === 'scalene') {
-                document.getElementById('scalene_triangle_inputs').style.display = 'block';
-            } else if (triangleType === 'two_sides_one_angle') {
-                document.getElementById('two_sides_one_angle_triangle_inputs').style.display = 'block';
-            }
-        }
-
-        // Initialize on page load
-        document.getElementById('shape_type').addEventListener('change', toggleInputsAndInfos);
-        document.addEventListener('DOMContentLoaded', function() {
-            hideAllInputsAndInfos();
+    // Hide all input groups and shape infos
+    function hideAllInputsAndInfos() {
+        const inputGroups = document.querySelectorAll('.input-group');
+        inputGroups.forEach(group => {
+            if (group.id !== 'unit_group') group.style.display = 'none';
         });
-    </script>
+        const shapeInfos = document.querySelectorAll('.shape-info');
+        shapeInfos.forEach(info => info.style.display = 'none');
+        const subInputGroups = document.querySelectorAll('.sub-input-group');
+        subInputGroups.forEach(subGroup => subGroup.style.display = 'none');
+        document.getElementById('unit_group').style.display = 'none';
+        document.getElementById('calc-btn').style.display = 'none';
+    }
+
+    // Show relevant input group and shape info
+    function toggleInputsAndInfos() {
+        hideAllInputsAndInfos();
+        var shape = document.getElementById('shape_type').value;
+        if (!shape) return;
+        // Show the relevant input group
+        var inputGroup = document.getElementById(shape + '_inputs');
+        if (inputGroup) inputGroup.style.display = 'block';
+        // Show the relevant shape info
+        var infoDiv = document.getElementById(shape + '-info');
+        if (infoDiv) infoDiv.style.display = 'flex';
+        // Show unit selection and button
+        document.getElementById('unit_group').style.display = 'block';
+        document.getElementById('calc-btn').style.display = 'block';
+        // For triangle, show the default sub-inputs
+        if (shape === 'triangle') {
+            toggleTriangleInputs();
+        }
+    }
+
+    // Show relevant triangle sub-inputs
+    function toggleTriangleInputs() {
+        const subInputGroups = document.querySelectorAll('.sub-input-group');
+        subInputGroups.forEach(subGroup => {
+            subGroup.style.display = 'none';
+        });
+        var triangleType = document.getElementById('triangle_type').value;
+        if (triangleType === 'right_angle') {
+            document.getElementById('right_angle_triangle_inputs').style.display = 'block';
+        } else if (triangleType === 'equilateral') {
+            document.getElementById('equilateral_triangle_inputs').style.display = 'block';
+        } else if (triangleType === 'isosceles') {
+            document.getElementById('isosceles_triangle_inputs').style.display = 'block';
+        } else if (triangleType === 'scalene') {
+            document.getElementById('scalene_triangle_inputs').style.display = 'block';
+        } else if (triangleType === 'two_sides_one_angle') {
+            document.getElementById('two_sides_one_angle_triangle_inputs').style.display = 'block';
+        }
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        hideAllInputsAndInfos();
+        document.getElementById('shape_type').addEventListener('change', toggleInputsAndInfos);
+        // Also add triangle type change event here
+        var triangleTypeSelect = document.getElementById('triangle_type');
+        if (triangleTypeSelect) {
+            triangleTypeSelect.addEventListener('change', toggleTriangleInputs);
+        }
+    });
+</script>
 </body>
 </html>
