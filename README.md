@@ -6,7 +6,7 @@ Features:
 * Select from various measurement units: Meters, Centimeters, Millimeters, Inches, Feet.
 * Interactive and responsive web interface.
 * Error handling for invalid inputs.
-Webpage screenshot ![Screenshot of Geometry Calculator](path/to/your/screenshot.png)
+* Webpage screenshot ![image](https://github.com/user-attachments/assets/eac37000-aae2-4e4a-8972-54613f32b038) (path/to/your/screenshot.png) 
 
 
 Experience the calculator live here: [https://geometrical-shape-calculator.onrender.com/)](https://geometrical-shape-calculator.onrender.com/)
