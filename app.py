@@ -26,6 +26,50 @@ def calculate_area_web(shape_type, unit="units", **kwargs):
             area_unit = "ft\u00b2"
             volume_unit = "ft\u00b3"
 
+        # --- Define required fields for each shape type ---
+        required_fields = {
+            'circle': ['radius'],
+            'quadrilateral': ['length', 'width'],
+            'pyramid': ['base_length', 'height_py'], # Ensure these match HTML name attributes
+            'sphere': ['radius_sphere'],
+            'cylinder': ['radius_cylinder', 'height_cylinder'],
+            'trapezium': ['base1', 'base2', 'height_trapezium'],
+            'parallelogram': ['base_para', 'height_para'],
+            'pentagon': ['side_pentagon'],
+            'hexagon': ['side_hexagon'],
+            'cuboid': ['length_cuboid', 'width_cuboid', 'height_cuboid'],
+            'cone': ['radius_cone', 'height_cone'],
+            'rhombus': ['diagonal1', 'diagonal2'],
+            'ellipse': ['semi_major_axis', 'semi_minor_axis'],
+            'sector': ['radius_sector', 'angle_sector'],
+        }
+
+        # Validate fields for the main shape type
+        current_shape_required = required_fields.get(shape_type, [])
+        
+        # Special handling for triangles as they have sub-types
+        if shape_type == 'triangle':
+            triangle_type = kwargs.get('triangle_type')
+            if triangle_type == 'right_angle':
+                current_shape_required = ['base', 'height']
+            elif triangle_type == 'equilateral':
+                current_shape_required = ['side']
+            elif triangle_type == 'isosceles':
+                current_shape_required = ['base', 'side'] # Using 'base' and 'side' as names
+            elif triangle_type == 'scalene':
+                current_shape_required = ['side_a', 'side_b', 'side_c']
+            elif triangle_type == 'two_sides_one_angle':
+                current_shape_required = ['side1', 'side2', 'angle']
+            else:
+                return "Please select a triangle type."
+        
+        # Check if all required fields for the selected shape are present and not empty
+        for field in current_shape_required:
+            if field not in kwargs or kwargs.get(field) == '':
+                # If a field is missing or empty, return an error message
+                return f"Error: Missing or empty value for '{field}'. Please fill all required fields for {shape_type}."
+
+        # --- Perform calculations (ensure float conversion for all inputs) ---
         if shape_type == "circle":
             radius = float(kwargs.get('radius'))
             area = math.pi * (radius ** 2)
@@ -39,22 +83,21 @@ def calculate_area_web(shape_type, unit="units", **kwargs):
             else:
                 return f"The area is {area:.2f} {area_unit} (a Rectangle)"
         elif shape_type == "triangle":
-            triangle_type = kwargs.get('triangle_type', 'right_angle')
+            triangle_type = kwargs.get('triangle_type')
             if triangle_type == 'right_angle':
                 base = float(kwargs.get('base'))
-                height = float(kwargs.get('height')) # Corrected from height_ra
+                height = float(kwargs.get('height'))
                 area = 0.5 * base * height
                 return f"The area of the right angle triangle is {area:.2f} {area_unit}"
             elif triangle_type == 'equilateral':
-                side = float(kwargs.get('side')) # Corrected from side_eq
+                side = float(kwargs.get('side'))
                 area = (math.sqrt(3) / 4) * (side ** 2)
                 return f"The area of the equilateral triangle is {area:.2f} {area_unit}"
             elif triangle_type == 'isosceles':
-                base = float(kwargs.get('base')) # Corrected from iso_base
-                side = float(kwargs.get('side')) # Corrected from iso_side
-                # Ensure side is greater than half base for a real triangle
+                base = float(kwargs.get('base'))
+                side = float(kwargs.get('side'))
                 if side <= base / 2:
-                    return "Invalid isosceles triangle: Equal side must be greater than half the base."
+                    return "Error: Invalid isosceles triangle (equal side must be greater than half the base)."
                 height = math.sqrt(side**2 - (base/2)**2)
                 area = 0.5 * base * height
                 return f"The area of the isosceles triangle is {area:.2f} {area_unit}"
@@ -62,9 +105,8 @@ def calculate_area_web(shape_type, unit="units", **kwargs):
                 a = float(kwargs.get('side_a'))
                 b = float(kwargs.get('side_b'))
                 c = float(kwargs.get('side_c'))
-                # Check for valid triangle (triangle inequality theorem)
                 if not (a + b > c and a + c > b and b + c > a):
-                    return "Invalid scalene triangle sides: Sides do not form a valid triangle."
+                    return "Error: Invalid scalene triangle (sides do not form a valid triangle)."
                 s = (a + b + c) / 2
                 area = math.sqrt(s * (s - a) * (s - b) * (s - c))
                 return f"The area of the scalene triangle is {area:.2f} {area_unit}"
@@ -72,20 +114,18 @@ def calculate_area_web(shape_type, unit="units", **kwargs):
                 side1 = float(kwargs.get('side1'))
                 side2 = float(kwargs.get('side2'))
                 angle = float(kwargs.get('angle'))
-                # Angle must be between 0 and 180 (exclusive) for a valid triangle area calculation
                 if not (0 < angle < 180):
-                    return "Invalid angle: Angle must be between 0 and 180 degrees."
+                    return "Error: Invalid angle (must be between 0 and 180 degrees)."
                 area = 0.5 * side1 * side2 * math.sin(math.radians(angle))
                 return f"The area of the triangle is {area:.2f} {area_unit}"
             else:
-                return "Unknown triangle type."
+                return "Error: Unknown triangle type."
         elif shape_type == "pyramid":
-            # Assuming a square base pyramid for simplicity based on your HTML input names
             base_length = float(kwargs.get('base_length'))
-            height = float(kwargs.get('height_py')) # Corrected from height
-            base_area = base_length * base_length # For square base
-            slant_height_face = math.sqrt((base_length / 2)**2 + height**2) # Slant height of a triangular face
-            surface_area = base_area + 2 * base_length * slant_height_face # Base + 4 triangles
+            height = float(kwargs.get('height_py'))
+            base_area = base_length * base_length # Assuming square base
+            slant_height_face = math.sqrt((base_length / 2)**2 + height**2)
+            surface_area = base_area + 2 * base_length * slant_height_face
             volume = (1/3) * base_area * height
             return f"Pyramid: Surface Area = {surface_area:.2f} {area_unit}, Volume = {volume:.2f} {volume_unit}"
         elif shape_type == "sphere":
@@ -96,7 +136,7 @@ def calculate_area_web(shape_type, unit="units", **kwargs):
         elif shape_type == "cylinder":
             radius = float(kwargs.get('radius_cylinder'))
             height = float(kwargs.get('height_cylinder'))
-            surface_area = 2 * math.pi * radius * (radius + height) # Total surface area
+            surface_area = 2 * math.pi * radius * (radius + height)
             volume = math.pi * (radius ** 2) * height
             return f"Cylinder: Surface Area = {surface_area:.2f} {area_unit}, Volume = {volume:.2f} {volume_unit}"
         elif shape_type == "trapezium":
@@ -148,30 +188,36 @@ def calculate_area_web(shape_type, unit="units", **kwargs):
             area = (angle / 360) * math.pi * (radius ** 2)
             return f"Sector: Area = {area:.2f} {area_unit}"
         else:
-            return "Unknown shape."
+            return "Error: Unknown shape selected."
     except ValueError:
-        return "Invalid input: Please enter valid numbers for all parameters."
+        return "Error: Please enter valid numerical inputs for all parameters."
+    except KeyError as e:
+        return f"Error: Missing expected input parameter: {e}. Please ensure all fields are filled."
     except Exception as e:
-        return f"An unexpected error occurred: {str(e)}"
+        # This will catch any other unexpected errors and show them to the user
+        return f"An unexpected server error occurred: {str(e)}"
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = None
+    # We will pass the submitted form data back to the template
+    # so JavaScript can re-display the correct inputs after a POST.
+    form_data = {} 
+    
     if request.method == 'POST':
+        form_data = request.form.to_dict()
         shape_type = request.form.get('shape_type')
-        unit = request.form.get('unit_type', 'units') # Default to 'units' if not selected
+        unit = request.form.get('unit_type', 'units') 
         
-        # Collect all form parameters into a dictionary
-        params = request.form.to_dict()
+        # Collect all form parameters into a dictionary for calculate_area_web
+        # and also to pass back to the template for re-displaying fields.
+        form_data = request.form.to_dict() 
         
-        # Remove shape_type and unit_type from params as they are handled separately
-        params.pop('shape_type', None)
-        params.pop('unit_type', None)
-
-        # Pass all collected parameters to the calculation function
-        result = calculate_area_web(shape_type, unit=unit, **params)
+        # Call the calculation function
+        result = calculate_area_web(shape_type, unit=unit, **form_data)
         
-    return render_template('index.html', result=result)
+    # Pass the result and all form data back to the template
+    return render_template('index.html', result=result, form_data=form_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
