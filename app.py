@@ -129,6 +129,8 @@ def index():
         shape_type = request.form.get('shape_type')
         unit = request.form.get('unit_type', 'units')
         params = request.form.to_dict()
+        params.pop('shape_type', None)
+        params.pop('unit_type', None)
         # Required fields for each shape
         required_fields = {
             'circle': ['radius'],
