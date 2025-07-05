@@ -576,7 +576,7 @@
         }
 
         // --- New Logic for handling POST requests and preserving state ---
-       const formData = {{ form_data | tojson | default('{}') }}; // Get form data passed from Flask
+        const formData = {{ form_data | tojson }}; // Get form data passed from Flask
         if (Object.keys(formData).length > 0) { // Check if form_data is not empty (i.e., it's a POST request)
             // Restore shape and unit selection
             document.getElementById('shape_type').value = formData.shape_type || '';
