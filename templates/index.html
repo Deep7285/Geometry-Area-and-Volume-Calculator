@@ -6,10 +6,10 @@
     <title>Geometry Area and Volume Calculator</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- The inline style block below is not strictly needed if style.css defines everything,
+         but keeping it here for now as it was in your original.
+         Ideally, all CSS should be in style.css for cleaner separation. -->
     <style>
-        /* This inline style block is largely redundant if style.css is linked correctly.
-           For production, it's best to move all styling to style.css.
-           Keeping it here for consistency with your provided file, but marking as note. */
         body, h1, h2, h3, h4, h5, h6, p, label, input, select, button {
             font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -564,14 +564,15 @@
         // Hide all dynamic elements initially to ensure a clean start
         hideAllDynamicElements();
         
-        // This line is redundant if the ID is already in HTML. Remove or ensure it's not duplicating.
-        // document.getElementById('shape_type').parentElement.id = 'shape_selection_group'; 
+        // Add an ID to the shape selection group for easier targeting
+        document.getElementById('shape_type').parentElement.id = 'shape_selection_group';
 
         // Attach event listeners
         document.getElementById('shape_type').addEventListener('change', toggleInputsAndInfos);
         
+        // Also add triangle type change event here
         var triangleTypeSelect = document.getElementById('triangle_type');
-        if (triangleTypeSelect) { // Ensure element exists before adding listener
+        if (triangleTypeSelect) {
             triangleTypeSelect.addEventListener('change', toggleTriangleInputs);
         }
 
