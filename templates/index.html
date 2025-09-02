@@ -5,14 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geometry Area and Volume Calculator</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
-    <!-- This is now the ONLY source for your styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body, h1, h2, h3, h4, h5, h6, p, label, input, select, button {
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 40px 40px 40px;
+        }
+        .header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .header-flex img {
+            height: 70px;
+        }
+        .header-flex h1 {
+            font-size: 2.2em;
+            margin: 0;
+            font-weight: 700;
+        }
+        .desc {
+            text-align: left;
+            font-size: 1.1em;
+            color: #444;
+            margin-bottom: 30px;
+            margin-left: 94px;
+        }
+        .main-flex {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+        .shape-info {
+            display: none;
+            flex: 1 1 0;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 24px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 18px 24px;
+            min-height: 200px;
+        }
+        .shape-info img {
+            max-width: 180px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .shape-details {
+            flex: 1;
+            padding-left: 16px;
+        }
+        .formula {
+            font-family: 'Consolas', monospace;
+            background: #f3f3f3;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        .input-panel {
+            flex: 0 0 350px;
+            max-width: 350px;
+            background: #f7fbfc;
+            border-radius: 10px;
+            padding: 18px 24px;
+        }
+        .input-group, .sub-input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label, .sub-input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        .input-group input, .input-group select, .sub-input-group input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 8px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #004d40;
+            text-align: center;
+        }
+        @media (max-width: 900px) {
+            .main-flex { flex-direction: column; }
+            .desc { margin-left: 0; }
+        }
+    </style>
 </head>
 <body>
    <div class="container">
-        <!-- Header with logo left of title -->
         <div class="header-flex">
-            <img src="{{ url_for('static', filename='images/pyramid logo.png') }}" alt="Pyramid">
+            <img src="{{ url_for('static', filename='images/pyramid_logo.png') }}" alt="Pyramid">
             <h1>Geometry Area and Volume Calculator</h1>
         </div>
         <div class="desc">
@@ -20,9 +137,7 @@
             Select a shape to see its formula and required dimensions.
         </div>
         <div class="main-flex">
-            <!-- Shape Info Section (image left, info right) -->
             <div id="shape-info-container" style="flex:1;">
-                <!-- All shape-info divs start hidden -->
                 <div id="circle-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/circle.png') }}" alt="Circle">
                     <div class="shape-details">
@@ -42,7 +157,7 @@
                         <div>Where <b>l</b> is the length and <b>w</b> is the width.</div>
                         <div class="desc">A rectangle is a quadrilateral with opposite sides equal and parallel.</div>
                     </div>
-                </div>  
+                </div>
                 <div id="triangle-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/triangle.png') }}" alt="Triangle">
                     <div class="shape-details">
@@ -52,7 +167,7 @@
                         <div>Where <b>b</b> is the base and <b>h</b> is the height.</div>
                         <div class="desc">A triangle is a polygon with three edges and three vertices.</div>
                     </div>
-                </div>    
+                </div>
                 <div id="pyramid-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/pyramid.png') }}" alt="Pyramid">
                     <div class="shape-details">
@@ -72,7 +187,7 @@
                         <div>Where <b>r</b> is the radius.</div>
                         <div class="desc">A sphere is a perfectly round three-dimensional shape.</div>
                     </div>
-                </div>  
+                </div>
                 <div id="cylinder-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/cylinder.png') }}" alt="Cylinder">
                     <div class="shape-details">
@@ -174,46 +289,41 @@
                     </div>
                 </div>
             </div>
-            <!-- Input Panel -->
             <div class="input-panel">
                 <form method="POST" id="geometry-form" autocomplete="off">
-                    <!-- Shape selection - ALWAYS VISIBLE -->
                     <div class="input-group" id="shape_selection_group">
                         <label for="shape_type">Select Shape:</label>
+                        <!-- THIS IS THE CORRECTED DROPDOWN -->
                         <select name="shape_type" id="shape_type" onchange="toggleInputsAndInfos();" required>
-                            <option value="">--Please choose an option--</option>
-                            <option value="circle">Circle</option>
-                            <option value="quadrilateral">Rectangle</option>
-                            <option value="triangle">Triangle</option>
-                            <option value="pyramid">Pyramid</option>
-                            <option value="sphere">Sphere</option>
-                            <option value="cylinder">Cylinder</option>
-                            <option value="trapezium">Trapezium</option>
-                            <option value="parallelogram">Parallelogram</option>
-                            <option value="pentagon">Pentagon</option>
-                            <option value="hexagon">Hexagon</option>
-                            <option value="cuboid">Cuboid</option>
-                            <option value="cone">Cone</option>
-                            <option value="rhombus">Rhombus</option>
-                            <option value="ellipse">Ellipse</option>
-                            <option value="sector">Sector</option>
+                            <option value="" {% if not shape_type %}selected{% endif %}>--Please choose an option--</option>
+                            <option value="circle" {% if shape_type == 'circle' %}selected{% endif %}>Circle</option>
+                            <option value="quadrilateral" {% if shape_type == 'quadrilateral' %}selected{% endif %}>Rectangle</option>
+                            <option value="triangle" {% if shape_type == 'triangle' %}selected{% endif %}>Triangle</option>
+                            <option value="pyramid" {% if shape_type == 'pyramid' %}selected{% endif %}>Pyramid</option>
+                            <option value="sphere" {% if shape_type == 'sphere' %}selected{% endif %}>Sphere</option>
+                            <option value="cylinder" {% if shape_type == 'cylinder' %}selected{% endif %}>Cylinder</option>
+                            <option value="trapezium" {% if shape_type == 'trapezium' %}selected{% endif %}>Trapezium</option>
+                            <option value="parallelogram" {% if shape_type == 'parallelogram' %}selected{% endif %}>Parallelogram</option>
+                            <option value="pentagon" {% if shape_type == 'pentagon' %}selected{% endif %}>Pentagon</option>
+                            <option value="hexagon" {% if shape_type == 'hexagon' %}selected{% endif %}>Hexagon</option>
+                            <option value="cuboid" {% if shape_type == 'cuboid' %}selected{% endif %}>Cuboid</option>
+                            <option value="cone" {% if shape_type == 'cone' %}selected{% endif %}>Cone</option>
+                            <option value="rhombus" {% if shape_type == 'rhombus' %}selected{% endif %}>Rhombus</option>
+                            <option value="ellipse" {% if shape_type == 'ellipse' %}selected{% endif %}>Ellipse</option>
+                            <option value="sector" {% if shape_type == 'sector' %}selected{% endif %}>Sector</option>
                         </select>
                     </div>
 
-                    <!-- All other input groups start hidden -->
-                    <!-- Circle -->
                     <div class="input-group" id="circle_inputs" style="display:none;">
                         <label for="radius">Radius:</label>
                         <input type="number" step="any" name="radius" id="radius" min="0" placeholder="e.g., 10">
                     </div>
-                    <!-- Rectangle -->
                     <div class="input-group" id="quadrilateral_inputs" style="display:none;">
                         <label for="length">Length:</label>
                         <input type="number" step="any" name="length" id="length" min="0" placeholder="e.g., 5">
                         <label for="width">Width:</label>
                         <input type="number" step="any" name="width" id="width" min="0" placeholder="e.g., 4">
                     </div>
-                    <!-- Triangle -->
                     <div class="input-group" id="triangle_inputs" style="display:none;">
                         <label for="triangle_type">Triangle Type:</label>
                         <select name="triangle_type" id="triangle_type" onchange="toggleTriangleInputs();">
@@ -256,26 +366,22 @@
                             <input type="number" step="any" name="angle" id="angle" min="0" max="180" placeholder="e.g., 30">
                         </div>
                     </div>
-                    <!-- Pyramid -->
                     <div class="input-group" id="pyramid_inputs" style="display:none;">
                         <label for="base_length">Base Length:</label>
                         <input type="number" step="any" name="base_length" id="base_length" min="0" placeholder="e.g., 5">
                         <label for="height_py">Height:</label>
                         <input type="number" step="any" name="height_py" id="height_py" min="0" placeholder="e.g., 10">
                     </div>
-                    <!-- Sphere -->
                     <div class="input-group" id="sphere_inputs" style="display:none;">
                         <label for="radius_sphere">Radius:</label>
                         <input type="number" step="any" name="radius_sphere" id="radius_sphere" min="0" placeholder="e.g., 7">
                     </div>
-                    <!-- Cylinder -->
                     <div class="input-group" id="cylinder_inputs" style="display:none;">
                         <label for="radius_cylinder">Radius:</label>
                         <input type="number" step="any" name="radius_cylinder" id="radius_cylinder" min="0" placeholder="e.g., 4">
                         <label for="height_cylinder">Height:</label>
                         <input type="number" step="any" name="height_cylinder" id="height_cylinder" min="0" placeholder="e.g., 10">
                     </div>
-                    <!-- Trapezium -->
                     <div class="input-group" id="trapezium_inputs" style="display:none;">
                         <label for="base1">Base 1:</label>
                         <input type="number" step="any" name="base1" id="base1" min="0" placeholder="e.g., 8">
@@ -284,24 +390,20 @@
                         <label for="height_trapezium">Height:</label>
                         <input type="number" step="any" name="height_trapezium" id="height_trapezium" min="0" placeholder="e.g., 6">
                     </div>
-                    <!-- Parallelogram -->
                     <div class="input-group" id="parallelogram_inputs" style="display:none;">
                         <label for="base_para">Base:</label>
                         <input type="number" step="any" name="base_para" id="base_para" min="0" placeholder="e.g., 15">
                         <label for="height_para">Height:</label>
                         <input type="number" step="any" name="height_para" id="height_para" min="0" placeholder="e.g., 8">
                     </div>
-                    <!-- Pentagon -->
                     <div class="input-group" id="pentagon_inputs" style="display:none;">
                         <label for="side_pentagon">Side:</label>
                         <input type="number" step="any" name="side_pentagon" id="side_pentagon" min="0" placeholder="e.g., 5">
                     </div>
-                    <!-- Hexagon -->
                     <div class="input-group" id="hexagon_inputs" style="display:none;">
                         <label for="side_hexagon">Side:</label>
                         <input type="number" step="any" name="side_hexagon" id="side_hexagon" min="0" placeholder="e.g., 6">
                     </div>
-                    <!-- Cuboid -->
                     <div class="input-group" id="cuboid_inputs" style="display:none;">
                         <label for="length_cuboid">Length:</label>
                         <input type="number" step="any" name="length_cuboid" id="length_cuboid" min="0" placeholder="e.g., 10">
@@ -310,36 +412,31 @@
                         <label for="height_cuboid">Height:</label>
                         <input type="number" step="any" name="height_cuboid" id="height_cuboid" min="0" placeholder="e.g., 4">
                     </div>
-                    <!-- Cone -->
                     <div class="input-group" id="cone_inputs" style="display:none;">
                         <label for="radius_cone">Radius:</label>
                         <input type="number" step="any" name="radius_cone" id="radius_cone" min="0" placeholder="e.g., 3">
                         <label for="height_cone">Height:</label>
                         <input type="number" step="any" name="height_cone" id="height_cone" min="0" placeholder="e.g., 7">
                     </div>
-                    <!-- Rhombus -->
                     <div class="input-group" id="rhombus_inputs" style="display:none;">
                         <label for="diagonal1">Diagonal 1:</label>
                         <input type="number" step="any" name="diagonal1" id="diagonal1" min="0" placeholder="e.g., 10">
                         <label for="diagonal2">Diagonal 2:</label>
                         <input type="number" step="any" name="diagonal2" id="diagonal2" min="0" placeholder="e.g., 8">
                     </div>
-                    <!-- Ellipse -->
                     <div class="input-group" id="ellipse_inputs" style="display:none;">
                         <label for="semi_major_axis">Semi-Major Axis:</label>
                         <input type="number" step="any" name="semi_major_axis" id="semi_major_axis" min="0" placeholder="e.g., 6">
                         <label for="semi_minor_axis">Semi-Minor Axis:</label>
                         <input type="number" step="any" name="semi_minor_axis" id="semi_minor_axis" min="0" placeholder="e.g., 4">
                     </div>
-                    <!-- Sector -->
                     <div class="input-group" id="sector_inputs" style="display:none;">
                         <label for="radius_sector">Radius:</label>
                         <input type="number" step="any" name="radius_sector" id="radius_sector" min="0" placeholder="e.g., 5">
                         <label for="angle_sector">Angle (degrees):</label>
                         <input type="number" step="any" name="angle_sector" id="angle_sector" min="0" placeholder="e.g., 90">
                     </div>
-                
-                    <!-- Unit selection -->
+
                     <div class="input-group" id="unit_group" style="display:none;">
                         <label for="unit_type">Select Unit:</label>
                         <select name="unit_type" id="unit_type">
@@ -350,7 +447,7 @@
                             <option value="feet">Feet (ft)</option>
                         </select>
                     </div>
-                    <button type="submit" id="calc-btn" style="display:none;">Calculate Area</button>
+                    <button type="submit" id="calc-btn" style="display:none;">Calculate</button>
                 </form>
                 <div id="result">
                     {% if result %}
@@ -360,107 +457,130 @@
             </div>
         </div>
     </div>
-    <script>
-    // This function will hide all dynamic input groups and info sections
-    function hideAllDynamicElements() {
-        // Hide all parameter input groups
-        const inputGroups = document.querySelectorAll('.input-group');
-        inputGroups.forEach(group => {
-            // Exclude the shape selection group from being hidden initially
-            if (group.id !== 'shape_selection_group') {
-                group.style.display = 'none';
-            }
-        });
-        // Hide all shape infos
-        const shapeInfos = document.querySelectorAll('.shape-info');
-        shapeInfos.forEach(info => info.style.display = 'none');
-        // Hide all triangle sub-inputs
-        const subInputGroups = document.querySelectorAll('.sub-input-group');
-        subInputGroups.forEach(subGroup => subGroup.style.display = 'none');
-        // Hide unit group and button
-        document.getElementById('unit_group').style.display = 'none';
-        document.getElementById('calc-btn').style.display = 'none';
-        // Clear previous result
-        document.getElementById('result').innerHTML = '';
-    }
-
-    // This function shows relevant input group, shape info, unit, and button
-    function toggleInputsAndInfos() {
-        hideAllDynamicElements(); // First, hide everything that might be visible
-
-        var shape = document.getElementById('shape_type').value;
-        if (!shape) { // If no shape is selected (e.g., "--Please choose an option--")
-            return; // Do nothing, keep dynamic elements hidden
-        }
-
-        // Show the relevant input group for the selected shape
-        var inputGroup = document.getElementById(shape + '_inputs');
-        if (inputGroup) {
-            inputGroup.style.display = 'block';
-        }
-
-        // Show the relevant shape info (image and formula)
-        var infoDiv = document.getElementById(shape + '-info');
-        if (infoDiv) {
-            infoDiv.style.display = 'flex'; // Use 'flex' as per your CSS for shape-info
-        }
-
-        // Show unit selection and calculate button
-        document.getElementById('unit_group').style.display = 'block';
-        document.getElementById('calc-btn').style.display = 'block';
-
-        // Special handling for triangle's sub-types
-        if (shape === 'triangle') {
-            // Set default triangle type to 'right_angle' and trigger its toggle
-            document.getElementById('triangle_type').value = 'right_angle';
-            toggleTriangleInputs();
-        }
-    }
-
-    // Show relevant triangle sub-inputs
-    function toggleTriangleInputs() {
-        const subInputGroups = document.querySelectorAll('.sub-input-group');
-        subInputGroups.forEach(subGroup => {
-            subGroup.style.display = 'none';
-        });
-        var triangleType = document.getElementById('triangle_type').value;
-        if (triangleType === 'right_angle') {
-            document.getElementById('right_angle_triangle_inputs').style.display = 'block';
-        } else if (triangleType === 'equilateral') {
-            document.getElementById('equilateral_triangle_inputs').style.display = 'block';
-        } else if (triangleType === 'isosceles') {
-            document.getElementById('isosceles_triangle_inputs').style.display = 'block';
-        } else if (triangleType === 'scalene') {
-            document.getElementById('scalene_triangle_inputs').style.display = 'block';
-        } else if (triangleType === 'two_sides_one_angle') {
-            document.getElementById('two_sides_one_angle_triangle_inputs').style.display = 'block';
-        }
-    }
-
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        // Hide all dynamic elements initially to ensure a clean start
-        hideAllDynamicElements();
-        
-        // Add an ID to the shape selection group for easier targeting
-        document.getElementById('shape_type').parentElement.id = 'shape_selection_group';
-
-        // Attach event listeners
-        document.getElementById('shape_type').addEventListener('change', toggleInputsAndInfos);
-        
-        // Also add triangle type change event here
-        var triangleTypeSelect = document.getElementById('triangle_type');
-        if (triangleTypeSelect) {
-            triangleTypeSelect.addEventListener('change', toggleTriangleInputs);
-        }
-
-        // If a result is present from a previous POST request, ensure the relevant inputs are shown
-        // This makes the page state persistent after a calculation
-        const initialShape = document.getElementById('shape_type').value;
-        if (initialShape) {
-            toggleInputsAndInfos();
-        }
+<script>
+  // Utility: enable/disable all inputs inside a container
+  function setGroupEnabled(container, enabled) {
+    if (!container) return;
+    container.querySelectorAll('input, select, textarea, button').forEach(el => {
+      // Don't disable the main shape selector or submit button globally
+      if (el.id === 'shape_type' || el.id === 'calc-btn') return;
+      el.disabled = !enabled;
     });
+  }
+
+  function hideAllDynamicElements({ clearResult = false } = {}) {
+    // Hide/disable every shape input group except the selector
+    const inputGroups = document.querySelectorAll('.input-group');
+    inputGroups.forEach(group => {
+      if (group.id !== 'shape_selection_group') {
+        group.style.display = 'none';
+        setGroupEnabled(group, false);
+      }
+    });
+
+    // Hide all shape info panels
+    const shapeInfos = document.querySelectorAll('.shape-info');
+    shapeInfos.forEach(info => info.style.display = 'none');
+
+    // Hide unit + button
+    const unitGroup = document.getElementById('unit_group');
+    if (unitGroup) {
+      unitGroup.style.display = 'none';
+      setGroupEnabled(unitGroup, false);
+    }
+
+    const btn = document.getElementById('calc-btn');
+    if (btn) btn.style.display = 'none';
+
+    if (clearResult) {
+      const res = document.getElementById('result');
+      if (res) res.innerHTML = '';
+    }
+
+    // Hide & disable all triangle sub-groups
+    const subInputGroups = document.querySelectorAll('.sub-input-group');
+    subInputGroups.forEach(subGroup => {
+      subGroup.style.display = 'none';
+      setGroupEnabled(subGroup, false);
+    });
+  }
+
+  function toggleInputsAndInfos(userTriggered = false) {
+    // Only clear result if user actively changed selection
+    hideAllDynamicElements({ clearResult: userTriggered });
+
+    const shape = document.getElementById('shape_type').value;
+    if (!shape) return;
+
+    const inputGroup = document.getElementById(shape + '_inputs');
+    if (inputGroup) {
+      inputGroup.style.display = 'block';
+      setGroupEnabled(inputGroup, true);
+    }
+
+    const infoDiv = document.getElementById(shape + '-info');
+    if (infoDiv) infoDiv.style.display = 'flex';
+
+    // Unit group + button
+    const unitGroup = document.getElementById('unit_group');
+    if (unitGroup) {
+      unitGroup.style.display = 'block';
+      setGroupEnabled(unitGroup, true);
+    }
+    const btn = document.getElementById('calc-btn');
+    if (btn) {
+      btn.style.display = 'block';
+      // Optional: adjust label to Area/Volume based on visible info (rudimentary)
+      const isVolumeShape = ['sphere','cylinder','cuboid','cone','pyramid'].includes(shape);
+      btn.textContent = isVolumeShape ? 'Calculate Volume' : 'Calculate Area';
+    }
+
+    if (shape === 'triangle') {
+      // Ensure a default is set and proper sub-group is visible/enabled
+      const triangleTypeSel = document.getElementById('triangle_type');
+      if (triangleTypeSel && !triangleTypeSel.value) triangleTypeSel.value = 'right_angle';
+      toggleTriangleInputs();
+    }
+  }
+
+  function toggleTriangleInputs() {
+    // Hide/disable all, then show/enable the chosen one
+    const subInputGroups = document.querySelectorAll('.sub-input-group');
+    subInputGroups.forEach(subGroup => {
+      subGroup.style.display = 'none';
+      setGroupEnabled(subGroup, false);
+    });
+
+    const triangleType = document.getElementById('triangle_type').value;
+    const subGroupToShow = document.getElementById(triangleType + '_triangle_inputs');
+    if (subGroupToShow) {
+      subGroupToShow.style.display = 'block';
+      setGroupEnabled(subGroupToShow, true);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Ensure the selector group has the right id (you already set it in HTML; this line is redundant but harmless)
+    const sel = document.getElementById('shape_type');
+    if (sel && sel.parentElement && sel.parentElement.id !== 'shape_selection_group') {
+      sel.parentElement.id = 'shape_selection_group';
+    }
+
+    // On first load, do NOT clear server-rendered result
+    const initialShape = sel ? sel.value : '';
+    if (initialShape) {
+      toggleInputsAndInfos(false);   // not user-triggered
+    } else {
+      hideAllDynamicElements({ clearResult: false });
+    }
+
+    // Event listeners
+    sel && sel.addEventListener('change', () => toggleInputsAndInfos(true));
+    const triangleTypeSelect = document.getElementById('triangle_type');
+    if (triangleTypeSelect) {
+      triangleTypeSelect.addEventListener('change', toggleTriangleInputs);
+    }
+  });
 </script>
 </body>
 </html>
