@@ -5,8 +5,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geometry Area and Volume Calculator</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
-    <!-- This is now the ONLY source for your styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- The inline style block below is not strictly needed if style.css defines everything,
+         but keeping it here for now as it was in your original.
+         Ideally, all CSS should be in style.css for cleaner separation. -->
+    <style>
+        body, h1, h2, h3, h4, h5, h6, p, label, input, select, button {
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 40px 40px 40px;
+        }
+        .header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .header-flex img {
+            height: 70px;
+        }
+        .header-flex h1 {
+            font-size: 2.2em;
+            margin: 0;
+            font-weight: 700;
+        }
+        .desc {
+            text-align: left;
+            font-size: 1.1em;
+            color: #444;
+            margin-bottom: 30px;
+            margin-left: 94px; /* Adjust if needed for smaller screens */
+        }
+        .main-flex {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+        .shape-info {
+            display: none; /* Default hidden */
+            flex: 1 1 0;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 24px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 18px 24px;
+            min-height: 200px;
+        }
+        .shape-info img {
+            max-width: 180px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .shape-details {
+            flex: 1;
+            padding-left: 16px;
+        }
+        .formula {
+            font-family: 'Consolas', monospace;
+            background: #f3f3f3;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        .input-panel {
+            flex: 0 0 350px;
+            max-width: 350px;
+            background: #f7fbfc;
+            border-radius: 10px;
+            padding: 18px 24px;
+        }
+        .input-group, .sub-input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label, .sub-input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        .input-group input, .input-group select, .sub-input-group input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 8px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #result {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #004d40;
+            text-align: center;
+        }
+        @media (max-width: 900px) {
+            .main-flex { flex-direction: column; }
+            .desc { margin-left: 0; }
+        }
+    </style>
 </head>
 <body>
    <div class="container">
