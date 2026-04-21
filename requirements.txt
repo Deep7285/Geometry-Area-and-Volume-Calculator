@@ -1,0 +1,8 @@
+﻿Flask
+numpy
+opencv-python-headless
+requests
+python-dotenv
+google-generativeai
+Pillow
+gunicorn
