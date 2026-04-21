@@ -1,109 +1,122 @@
-/* Add to the top of your CSS file */
+/* static/css/style.css */
 body, h1, h2, h3, h4, h5, h6, p, label, input, select, button {
     font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.shape-info {
-    text-align: center;
-    margin-bottom: 20px;
-    animation: fadeIn 0.5s;
-}
-.shape-info img {
-    display: block;
-    margin: 0 auto 10px auto;
-    max-width: 180px;
-}
-.formula {
-    font-family: 'Consolas', monospace;
-    background: #f3f3f3;
-    padding: 6px 12px;
-    border-radius: 6px;
-    display: inline-block;
-    margin: 5px 0;
-}
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Basic Body Styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 20px;
     background-color: #f4f7f6;
     color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    min-height: 100vh; /* Ensure body takes full viewport height */
+    min-height: 100vh;
 }
 
-/* Container for better layout */
+/* Wide container for side-by-side layout */
 .container {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
-    box-sizing: border-box; /* Include padding in width calculation */
+    max-width: 1200px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 32px 40px 40px 40px;
 }
 
-/* Heading Styles */
-h1 {
+.header-flex {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.header-flex h1 {
+    font-size: 2.2em;
+    margin: 0;
     color: #2c3e50;
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 2em;
 }
 
-/* Input Group Styling */
-.input-group {
+.desc {
+    font-size: 1.1em;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+/* Flexbox for side-by-side panels */
+.main-flex {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* Left Panel: Info */
+#shape-info-container {
+    flex: 1; 
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #eee;
+}
+
+.shape-info {
+    display: none;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    animation: fadeIn 0.4s ease-in;
+}
+
+.shape-info img {
+    max-width: 150px;
+    display: block;
+}
+
+.shape-details {
+    text-align: left;
+    font-size: 1.1em;
+}
+
+.formula {
+    font-family: 'Consolas', monospace;
+    background: #e8ecef;
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    margin: 5px 0;
+    color: #c0392b;
+    font-weight: bold;
+}
+
+/* Right Panel: Inputs */
+.input-panel {
+    flex: 0 0 380px; /* Fixed width for the form side */
+    background: #f7fbfc;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #e1e8ed;
+}
+
+.input-group, .sub-input-group {
     margin-bottom: 15px;
     display: flex;
-    flex-direction: column; /* Stack label and input vertically */
+    flex-direction: column;
 }
 
 .input-group label {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #555;
+    color: #2c3e50;
 }
 
-.input-group input[type="number"],
+.input-group input[type="number"], 
+.input-group input[type="file"], 
 .input-group select {
-    width: 100%; /* Make inputs take full width of their container */
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    box-sizing: border-box;
     font-size: 1em;
 }
 
-.sub-input-group {
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to next line */
-    gap: 10px; /* Space between sub-inputs */
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px dashed #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-.sub-input-group label {
-    flex-basis: 80px; /* Give labels a fixed width */
-    margin-bottom: 0; /* Override input-group label margin */
-}
-
-.sub-input-group input[type="number"] {
-    flex-grow: 1; /* Allow inputs to take remaining space */
-    width: auto; /* Override 100% width for sub-inputs */
-}
-
-
-/* Button Styling */
 button {
     background-color: #3498db;
     color: white;
@@ -112,23 +125,28 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.1em;
-    width: 100%; /* Full width button */
-    transition: background-color 0.3s ease; /* Smooth transition for hover */
+    width: 100%;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-button:hover {
-    background-color: #2980b9;
-}
+button:hover { background-color: #2980b9; }
+button:disabled { background-color: #95a5a6; cursor: not-allowed; }
 
-/* Result Display */
 #result {
-    margin-top: 25px;
+    margin-top: 20px;
     padding: 15px;
-    background-color: #e8f5e9;
-    border: 1px solid #c8e6c9;
     border-radius: 5px;
-    color: #2e7d32;
     text-align: center;
-    font-size: 1.2em;
-    word-wrap: break-word; /* Ensure long results wrap */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustment for mobile phones */
+@media (max-width: 900px) {
+    .main-flex { flex-direction: column; }
+    .input-panel { flex: 1; max-width: 100%; }
 }
