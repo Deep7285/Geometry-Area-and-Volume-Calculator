@@ -5,40 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geometry Area and Volume Calculator</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
-    <style>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
    <div class="container">
         <div class="header-flex">
-            <img src="{{ url_for('static', filename='images/pyramid_logo.png') }}" alt="Pyramid">
-            <h1>Geometry Area and Volume Calculator</h1>
+            <img src="{{ url_for('static', filename='images/pyramid_logo.png') }}" alt="Logo" style="height: 60px;">
+            <h1>Geometry Calculator</h1>
         </div>
         <div class="desc">
-            Calculate area and volume for various geometric shapes.<br>
-            Select a shape to see its formula and required dimensions.
+            Calculate area and volume for standard geometric shapes instantly,<br>
+            or use AI Vision to extract math from hand-drawn sketches.
         </div>
+
         <div class="main-flex">
-            <div id="shape-info-container" style="flex:1;">
+            <div id="shape-info-container">
+                <div style="text-align: center; padding: 40px; color: #7f8c8d;" id="default-info">
+                    <h3>Select a shape from the right to get started.</h3>
+                </div>
+
+                <div id="compound-info" class="shape-info">
+                    <div class="shape-details">
+                        <h3 style="color: #e67e22; margin-top: 0;">🤖 AI Vision Calculator</h3>
+                        <p>Upload a photo of your hand-drawn geometry sketch.</p>
+                        <ul style="color: #444; line-height: 1.6;">
+                            <li>Draw clean, connected lines.</li>
+                            <li>Write dimensions clearly next to the edges.</li>
+                            <li>Ensure good lighting (avoid heavy shadows).</li>
+                        </ul>
+                        <p style="background: #e8f5e9; padding: 10px; border-radius: 5px; color: #27ae60;">
+                            <strong>Our Vision Model</strong> will detect the shapes and extract your numbers automatically!
+                        </p>
+                    </div>
+                </div>
+
                 <div id="circle-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/circle.png') }}" alt="Circle">
                     <div class="shape-details">
                         <div><b>Circle</b></div>
                         <div>Area formula: <span class="formula">A = π × r²</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>r</b> is the radius.</div>
                         <div class="desc">A circle is a round shape with all points equidistant from the center.</div>
                     </div>
                 </div>
                 <div id="quadrilateral-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/rectangle.png') }}" alt="Rectangle">
                     <div class="shape-details">
-                        <div><b>Rectangle</b></div>
+                        <div><b>Rectangle / Square</b></div>
                         <div>Area formula: <span class="formula">A = l × w</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>l</b> is the length and <b>w</b> is the width.</div>
-                        <div class="desc">A rectangle is a quadrilateral with opposite sides equal and parallel.</div>
+                        <div class="desc">A quadrilateral with opposite sides equal and parallel.</div>
                     </div>
                 </div>
                 <div id="triangle-info" class="shape-info">
@@ -46,141 +60,120 @@
                     <div class="shape-details">
                         <div><b>Triangle</b></div>
                         <div>Area formula: <span class="formula">A = ½ × b × h</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>b</b> is the base and <b>h</b> is the height.</div>
-                        <div class="desc">A triangle is a polygon with three edges and three vertices.</div>
+                        <div class="desc">A polygon with three edges and three vertices.</div>
                     </div>
                 </div>
                 <div id="pyramid-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/pyramid.png') }}" alt="Pyramid">
                     <div class="shape-details">
                         <div><b>Pyramid</b></div>
-                        <div>Area formula: <span class="formula">A = B + ½ × P × l</span></div>
-                        <div>Volume formula: <span class="formula">V = ⅓ × B × h</span></div>
-                        <div>Where <b>B</b> is the base area, <b>P</b> is the perimeter of the base, and <b>l</b> is the slant height.</div>
-                        <div class="desc">A pyramid is a polyhedron with a polygonal base and triangular faces that meet at a point.</div>
+                        <div>Area: <span class="formula">A = B + ½ × P × l</span></div>
+                        <div>Volume: <span class="formula">V = ⅓ × B × h</span></div>
+                        <div class="desc">A polyhedron with a polygonal base and triangular faces.</div>
                     </div>
                 </div>
                 <div id="sphere-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/sphere.png') }}" alt="Sphere">
                     <div class="shape-details">
                         <div><b>Sphere</b></div>
-                        <div>Area formula: <span class="formula">A = 4πr²</span></div>
-                        <div>Volume formula: <span class="formula">V = (4/3)πr³</span></div>
-                        <div>Where <b>r</b> is the radius.</div>
-                        <div class="desc">A sphere is a perfectly round three-dimensional shape.</div>
+                        <div>Area: <span class="formula">A = 4πr²</span></div>
+                        <div>Volume: <span class="formula">V = (4/3)πr³</span></div>
+                        <div class="desc">A perfectly round three-dimensional shape.</div>
                     </div>
                 </div>
                 <div id="cylinder-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/cylinder.png') }}" alt="Cylinder">
                     <div class="shape-details">
                         <div><b>Cylinder</b></div>
-                        <div>Area formula: <span class="formula">A = 2πrh + 2πr²</span></div>
-                        <div>Volume formula: <span class="formula">V = πr²h</span></div>
-                        <div>Where <b>r</b> is the radius and <b>h</b> is the height.</div>
-                        <div class="desc">A cylinder is a three-dimensional shape with two parallel circular bases connected by a curved surface.</div>
+                        <div>Area: <span class="formula">A = 2πrh + 2πr²</span></div>
+                        <div>Volume: <span class="formula">V = πr²h</span></div>
+                        <div class="desc">A 3D shape with two parallel circular bases.</div>
                     </div>
                 </div>
                 <div id="trapezium-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/trapezium.png') }}" alt="Trapezium">
                     <div class="shape-details">
                         <div><b>Trapezium</b></div>
-                        <div>Area formula: <span class="formula">A = ½ × (a + b) × h</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>a</b> and <b>b</b> are the lengths of the parallel sides and <b>h</b> is the height.</div>
-                        <div class="desc">A trapezium is a quadrilateral with at least one pair of parallel sides.</div>
+                        <div>Area: <span class="formula">A = ½ × (a + b) × h</span></div>
+                        <div class="desc">A quadrilateral with at least one pair of parallel sides.</div>
                     </div>
                 </div>
                 <div id="parallelogram-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/parallelogram.png') }}" alt="Parallelogram">
                     <div class="shape-details">
                         <div><b>Parallelogram</b></div>
-                        <div>Area formula: <span class="formula">A = b × h</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>b</b> is the base and <b>h</b> is the height.</div>
-                        <div class="desc">A parallelogram is a quadrilateral with opposite sides parallel and equal in length.</div>
+                        <div>Area: <span class="formula">A = b × h</span></div>
+                        <div class="desc">A quadrilateral with opposite sides parallel and equal.</div>
                     </div>
                 </div>
                 <div id="pentagon-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/pentagon.png') }}" alt="Pentagon">
                     <div class="shape-details">
                         <div><b>Pentagon</b></div>
-                        <div>Area formula: <span class="formula">A = 1/4 × √(5(5 + 2√5)) × s²</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>s</b> is the length of a side.</div>
-                        <div class="desc">A pentagon is a five-sided polygon.</div>
+                        <div>Area: <span class="formula">A = 1/4 × √(5(5 + 2√5)) × s²</span></div>
+                        <div class="desc">A five-sided polygon.</div>
                     </div>
                 </div>
                 <div id="hexagon-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/hexagon.png') }}" alt="Hexagon">
                     <div class="shape-details">
                         <div><b>Hexagon</b></div>
-                        <div>Area formula: <span class="formula">A = (3√3/2) × s²</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>s</b> is the length of a side.</div>
-                        <div class="desc">A hexagon is a six-sided polygon.</div>
+                        <div>Area: <span class="formula">A = (3√3/2) × s²</span></div>
+                        <div class="desc">A six-sided polygon.</div>
                     </div>
                 </div>
                 <div id="cuboid-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/cuboid.png') }}" alt="Cuboid">
                     <div class="shape-details">
                         <div><b>Cuboid</b></div>
-                        <div>Area formula: <span class="formula">A = 2(lw + lh + wh)</span></div>
-                        <div>Volume formula: <span class="formula">V = l × w × h</span></div>
-                        <div>Where <b>l</b> is the length, <b>w</b> is the width, and <b>h</b> is the height.</div>
-                        <div class="desc">A cuboid is a three-dimensional shape with six rectangular faces.</div>
+                        <div>Area: <span class="formula">A = 2(lw + lh + wh)</span></div>
+                        <div>Volume: <span class="formula">V = l × w × h</span></div>
+                        <div class="desc">A 3D shape with six rectangular faces.</div>
                     </div>
                 </div>
                 <div id="cone-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/cone.png') }}" alt="Cone">
                     <div class="shape-details">
                         <div><b>Cone</b></div>
-                        <div>Area formula: <span class="formula">A = πr(r + l)</span></div>
-                        <div>Volume formula: <span class="formula">V = (1/3)πr²h</span></div>
-                        <div>Where <b>r</b> is the radius and <b>h</b> is the height.</div>
-                        <div class="desc">A cone is a three-dimensional shape with a circular base and a single vertex.</div>
+                        <div>Area: <span class="formula">A = πr(r + l)</span></div>
+                        <div>Volume: <span class="formula">V = (1/3)πr²h</span></div>
+                        <div class="desc">A 3D shape with a circular base and a single vertex.</div>
                     </div>
                 </div>
                 <div id="rhombus-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/rhombus.png') }}" alt="Rhombus">
                     <div class="shape-details">
                         <div><b>Rhombus</b></div>
-                        <div>Area formula: <span class="formula">A = ½ × d₁ × d₂</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>d₁</b> and <b>d₂</b> are the lengths of the diagonals.</div>
-                        <div class="desc">A rhombus is a quadrilateral with all sides equal in length.</div>
+                        <div>Area: <span class="formula">A = ½ × d₁ × d₂</span></div>
+                        <div class="desc">A quadrilateral with all sides equal in length.</div>
                     </div>
                 </div>
                 <div id="ellipse-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/ellipse.png') }}" alt="Ellipse">
                     <div class="shape-details">
                         <div><b>Ellipse</b></div>
-                        <div>Area formula: <span class="formula">A = πab</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>a</b> is the semi-major axis and <b>b</b> is the semi-minor axis.</div>
-                        <div class="desc">An ellipse is a shape that resembles a stretched circle.</div>
+                        <div>Area: <span class="formula">A = πab</span></div>
+                        <div class="desc">A shape that resembles a stretched circle.</div>
                     </div>
                 </div>
                 <div id="sector-info" class="shape-info">
                     <img src="{{ url_for('static', filename='images/sector.png') }}" alt="Sector">
                     <div class="shape-details">
                         <div><b>Sector</b></div>
-                        <div>Area formula: <span class="formula">A = ½ × r²θ</span></div>
-                        <div>Volume formula: <span class="formula">N/A</span></div>
-                        <div>Where <b>r</b> is the radius and <b>θ</b> is the angle in radians.</div>
-                        <div class="desc">A sector is a portion of a circle defined by two radii and an arc.</div>
+                        <div>Area: <span class="formula">A = ½ × r²θ</span></div>
+                        <div class="desc">A portion of a circle defined by two radii and an arc.</div>
                     </div>
                 </div>
             </div>
+
             <div class="input-panel">
                 <form method="POST" id="geometry-form" autocomplete="off">
                     <div class="input-group" id="shape_selection_group">
-                        <label for="shape_type">Select Shape:</label>
-                        <!-- THIS IS THE CORRECTED DROPDOWN -->
-                        <select name="shape_type" id="shape_type" onchange="toggleInputsAndInfos();" required>
-                            <option value="" {% if not shape_type %}selected{% endif %}>--Please choose an option--</option>
+                        <label for="shape_type">Select Mode/Shape:</label>
+                        <select name="shape_type" id="shape_type" onchange="toggleInputsAndInfos(true);" required>
+                            <option value="" {% if not shape_type %}selected{% endif %}>-- Choose an option --</option>
                             <option value="circle" {% if shape_type == 'circle' %}selected{% endif %}>Circle</option>
-                            <option value="quadrilateral" {% if shape_type == 'quadrilateral' %}selected{% endif %}>Rectangle</option>
+                            <option value="quadrilateral" {% if shape_type == 'quadrilateral' %}selected{% endif %}>Rectangle / Square</option>
                             <option value="triangle" {% if shape_type == 'triangle' %}selected{% endif %}>Triangle</option>
                             <option value="pyramid" {% if shape_type == 'pyramid' %}selected{% endif %}>Pyramid</option>
                             <option value="sphere" {% if shape_type == 'sphere' %}selected{% endif %}>Sphere</option>
@@ -194,8 +187,14 @@
                             <option value="rhombus" {% if shape_type == 'rhombus' %}selected{% endif %}>Rhombus</option>
                             <option value="ellipse" {% if shape_type == 'ellipse' %}selected{% endif %}>Ellipse</option>
                             <option value="sector" {% if shape_type == 'sector' %}selected{% endif %}>Sector</option>
-                            <option value="compound">Compound Sketch (Upload)</option>
+                            <option value="compound" style="font-weight: bold; color: #e67e22;">✨ Compound Sketch (AI)</option>
                         </select>
+                    </div>
+
+                    <div class="input-group" id="compound_inputs" style="display:none; background: #fff3e0; padding: 15px; border-radius: 8px; border: 1px dashed #e67e22;">
+                        <label for="image_upload" style="color: #d35400;">Upload Sketch Image:</label>
+                        <input type="file" id="image_upload" name="image" accept="image/png, image/jpeg, image/jpg" style="background: white;">
+                        <button type="button" id="analyze-btn" style="margin-top: 15px; background-color: #e67e22;">Analyze Sketch</button>
                     </div>
 
                     <div class="input-group" id="circle_inputs" style="display:none;">
@@ -320,11 +319,7 @@
                         <label for="angle_sector">Angle (degrees):</label>
                         <input type="number" step="any" name="angle_sector" id="angle_sector" min="0" placeholder="e.g., 90">
                     </div>
-                    <div class="input-group" id="compound_inputs" style="display:none;">
-                        <label for="image_upload">Upload Geometry Sketch (Image):</label>
-                        <input type="file" id="image_upload" name="image" accept="image/png, image/jpeg, image/jpg">
-                        <button type="button" id="analyze-btn" style="margin-top: 10px; background-color: #e67e22;">Analyze Sketch</button>
-                    </div>
+
                     <div class="input-group" id="unit_group" style="display:none;">
                         <label for="unit_type">Select Unit:</label>
                         <select name="unit_type" id="unit_type">
@@ -335,70 +330,63 @@
                             <option value="feet">Feet (ft)</option>
                         </select>
                     </div>
+                    
                     <button type="submit" id="calc-btn" style="display:none;">Calculate</button>
                 </form>
+
                 <div id="result">
                     {% if result %}
-                        <span style="color:blue; font-weight:bold; font-size:1.2em;">{{ result }}</span>
+                        <div style="background: #e8f5e9; border: 1px solid #c8e6c9; padding: 15px; border-radius: 5px; color: #2e7d32; font-weight: bold; font-size: 1.2em; text-align: center;">
+                            {{ result }}
+                        </div>
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
+
 <script>
-  // Utility: enable/disable all inputs inside a container
   function setGroupEnabled(container, enabled) {
     if (!container) return;
     container.querySelectorAll('input, select, textarea, button').forEach(el => {
-      // Don't disable the main shape selector or submit button globally
-      if (el.id === 'shape_type' || el.id === 'calc-btn') return;
+      if (el.id === 'shape_type' || el.id === 'calc-btn' || el.id === 'analyze-btn') return;
       el.disabled = !enabled;
     });
   }
 
   function hideAllDynamicElements({ clearResult = false } = {}) {
-    // Hide/disable every shape input group except the selector
-    const inputGroups = document.querySelectorAll('.input-group');
-    inputGroups.forEach(group => {
+    document.querySelectorAll('.input-group').forEach(group => {
       if (group.id !== 'shape_selection_group') {
         group.style.display = 'none';
         setGroupEnabled(group, false);
       }
     });
 
-    // Hide all shape info panels
-    const shapeInfos = document.querySelectorAll('.shape-info');
-    shapeInfos.forEach(info => info.style.display = 'none');
+    document.querySelectorAll('.shape-info').forEach(info => info.style.display = 'none');
+    document.getElementById('default-info').style.display = 'none';
 
-    // Hide unit + button
-    const unitGroup = document.getElementById('unit_group');
-    if (unitGroup) {
-      unitGroup.style.display = 'none';
-      setGroupEnabled(unitGroup, false);
-    }
-
-    const btn = document.getElementById('calc-btn');
-    if (btn) btn.style.display = 'none';
+    if (document.getElementById('unit_group')) document.getElementById('unit_group').style.display = 'none';
+    if (document.getElementById('calc-btn')) document.getElementById('calc-btn').style.display = 'none';
 
     if (clearResult) {
       const res = document.getElementById('result');
       if (res) res.innerHTML = '';
     }
 
-    // Hide & disable all triangle sub-groups
-    const subInputGroups = document.querySelectorAll('.sub-input-group');
-    subInputGroups.forEach(subGroup => {
+    document.querySelectorAll('.sub-input-group').forEach(subGroup => {
       subGroup.style.display = 'none';
       setGroupEnabled(subGroup, false);
     });
   }
 
   function toggleInputsAndInfos(userTriggered = false) {
-    // Only clear result if user actively changed selection
     hideAllDynamicElements({ clearResult: userTriggered });
-
     const shape = document.getElementById('shape_type').value;
-    if (!shape) return;
+    
+    if (!shape) {
+        document.getElementById('default-info').style.display = 'block';
+        return;
+    }
 
     const inputGroup = document.getElementById(shape + '_inputs');
     if (inputGroup) {
@@ -409,22 +397,15 @@
     const infoDiv = document.getElementById(shape + '-info');
     if (infoDiv) infoDiv.style.display = 'flex';
 
-    // Unit group + button
-    const unitGroup = document.getElementById('unit_group');
-    if (unitGroup) {
-      unitGroup.style.display = 'block';
-      setGroupEnabled(unitGroup, true);
-    }
-    const btn = document.getElementById('calc-btn');
-    if (btn) {
-      btn.style.display = 'block';
-      // Optional: adjust label to Area/Volume based on visible info (rudimentary)
-      const isVolumeShape = ['sphere','cylinder','cuboid','cone','pyramid'].includes(shape);
-      btn.textContent = isVolumeShape ? 'Calculate Volume' : 'Calculate Area';
+    if (shape !== 'compound') {
+        const unitGroup = document.getElementById('unit_group');
+        unitGroup.style.display = 'block';
+        setGroupEnabled(unitGroup, true); 
+        
+        document.getElementById('calc-btn').style.display = 'block';
     }
 
     if (shape === 'triangle') {
-      // Ensure a default is set and proper sub-group is visible/enabled
       const triangleTypeSel = document.getElementById('triangle_type');
       if (triangleTypeSel && !triangleTypeSel.value) triangleTypeSel.value = 'right_angle';
       toggleTriangleInputs();
@@ -432,9 +413,7 @@
   }
 
   function toggleTriangleInputs() {
-    // Hide/disable all, then show/enable the chosen one
-    const subInputGroups = document.querySelectorAll('.sub-input-group');
-    subInputGroups.forEach(subGroup => {
+    document.querySelectorAll('.sub-input-group').forEach(subGroup => {
       subGroup.style.display = 'none';
       setGroupEnabled(subGroup, false);
     });
@@ -448,28 +427,22 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    // Ensure the selector group has the right id
     const sel = document.getElementById('shape_type');
-    if (sel && sel.parentElement && sel.parentElement.id !== 'shape_selection_group') {
-      sel.parentElement.id = 'shape_selection_group';
-    }
-
-    // On first load, do NOT clear server-rendered result
     const initialShape = sel ? sel.value : '';
     if (initialShape) {
-      toggleInputsAndInfos(false);   // not user-triggered
+      toggleInputsAndInfos(false);
     } else {
       hideAllDynamicElements({ clearResult: false });
+      document.getElementById('default-info').style.display = 'block';
     }
 
-    // Event listeners
     sel && sel.addEventListener('change', () => toggleInputsAndInfos(true));
     const triangleTypeSelect = document.getElementById('triangle_type');
     if (triangleTypeSelect) {
       triangleTypeSelect.addEventListener('change', toggleTriangleInputs);
     }
 
-    // Handle Compound Sketch Upload
+    // --- FULLY RESTORED VLM AJAX LOGIC ---
     const analyzeBtn = document.getElementById('analyze-btn');
     const imageUpload = document.getElementById('image_upload');
     const resultDiv = document.getElementById('result');
@@ -478,18 +451,15 @@
         analyzeBtn.addEventListener('click', function() {
             const file = imageUpload.files[0];
             if (!file) {
-                resultDiv.innerHTML = '<span style="color:red;">Please select an image first.</span>';
+                resultDiv.innerHTML = '<span style="color:red; font-weight:bold;">Please select an image first.</span>';
                 return;
             }
 
-            // Show a loading state
-            resultDiv.innerHTML = '<span style="color:#e67e22;">Analyzing sketch... Please wait.</span>';
+            resultDiv.innerHTML = '<span style="color:#e67e22; font-weight:bold;">Analyzing sketch via Google Gemini API... Please wait.</span>';
 
-            // Package the file into a FormData object
             const formData = new FormData();
             formData.append('image', file);
 
-            // Send it to our new Flask route silently
             fetch('/analyze', {
                 method: 'POST',
                 body: formData
@@ -497,15 +467,13 @@
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
-                    resultDiv.innerHTML = `<span style="color:red;">Error: ${data.error}</span>`;
+                    resultDiv.innerHTML = `<span style="color:red; font-weight:bold;">Error: ${data.error}</span>`;
                 } else {
-                    // --- DYNAMIC DOM MANIPULATION ---
                     const vlm = data.vlm_data;
                     const detectedShapes = vlm.shapes ? vlm.shapes.join(", ") : "None";
                     const detectedHeight = vlm.dimensions ? (vlm.dimensions.height || '') : '';
                     const unit = vlm.dimensions ? (vlm.dimensions.unit || 'units') : 'units';
 
-                    // Build the HTML for the Review Form dynamically
                     let reviewFormHTML = `
                         <span style="color:green; font-weight:bold;">${data.message}</span><br>
                         
@@ -519,33 +487,29 @@
                                 <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd; flex: 1; min-width: 200px;">
                                     <h4 style="margin: 0 0 10px 0; color: #e67e22;">Rectangle</h4>
                                     <label style="display:block; margin-bottom:5px;">Height:</label>
-                                    <input type="number" id="review_rect_h" value="${detectedHeight}" style="width: 100%; margin-bottom: 10px;">
+                                    <input type="number" id="review_rect_h" value="${detectedHeight}" style="width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #ccc;">
                                     
                                     <label style="display:block; margin-bottom:5px;">Width:</label>
-                                    <input type="number" id="review_rect_w" placeholder="Needs Input!" style="width: 100%; border: 2px solid #e74c3c;">
+                                    <input type="number" id="review_rect_w" placeholder="Needs Input!" style="width: 100%; padding: 8px; border: 2px solid #e74c3c;">
                                 </div>
 
                                 <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd; flex: 1; min-width: 200px;">
                                     <h4 style="margin: 0 0 10px 0; color: #e67e22;">Semicircle</h4>
                                     <label style="display:block; margin-bottom:5px;">Radius:</label>
-                                    <input type="number" id="review_semi_r" placeholder="Needs Input!" style="width: 100%; border: 2px solid #e74c3c;">
+                                    <input type="number" id="review_semi_r" placeholder="Needs Input!" style="width: 100%; padding: 8px; border: 2px solid #e74c3c;">
                                     <small style="color: #7f8c8d; display:block; margin-top:5px;">(Hint: If attached to the 5m side, radius is 2.5)</small>
                                 </div>
                             </div>
 
-                            <button type="button" id="final-calc-btn" style="background-color: #27ae60; margin-top: 20px; font-weight: bold;">Calculate Final Compound Area</button>
+                            <button type="button" id="final-calc-btn" style="background-color: #27ae60; margin-top: 20px; font-weight: bold; padding: 12px; width: 100%; color: white; border: none; border-radius: 5px; cursor: pointer;">Calculate Final Compound Area</button>
                             
-                            <div id="final-result" style="margin-top: 20px; font-weight: bold; font-size: 1.3em; color: #2c3e50; background: #e8f5e9; padding: 15px; border-radius: 5px; display: none;"></div>
+                            <div id="final-result" style="margin-top: 20px; font-weight: bold; font-size: 1.3em; color: #2c3e50; background: #e8f5e9; padding: 15px; border-radius: 5px; display: none; text-align: center;"></div>
                         </div>
                     `;
 
-                    // Inject the new form into the page
                     resultDiv.innerHTML = reviewFormHTML;
 
-                    // --- ATTACH MATH LOGIC TO THE NEW BUTTON ---
-                    // We must do this AFTER injecting the HTML, otherwise the button doesn't exist yet!
                     document.getElementById('final-calc-btn').addEventListener('click', function() {
-                        // Grab the values the user reviewed/corrected
                         const rectH = parseFloat(document.getElementById('review_rect_h').value) || 0;
                         const rectW = parseFloat(document.getElementById('review_rect_w').value) || 0;
                         const semiR = parseFloat(document.getElementById('review_semi_r').value) || 0;
@@ -555,12 +519,10 @@
                             return;
                         }
 
-                        // Do the Compound Math
                         const rectArea = rectH * rectW;
                         const semiArea = (Math.PI * Math.pow(semiR, 2)) / 2;
                         const totalArea = rectArea + semiArea;
 
-                        // Display the final result
                         const finalResultDiv = document.getElementById('final-result');
                         finalResultDiv.style.display = 'block';
                         finalResultDiv.innerHTML = `
@@ -574,7 +536,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                resultDiv.innerHTML = '<span style="color:red;">Server error occurred. Check logs.</span>';
+                resultDiv.innerHTML = '<span style="color:red; font-weight:bold;">Server error occurred. Check your Hugging Face Logs!</span>';
             });
         });
     }
