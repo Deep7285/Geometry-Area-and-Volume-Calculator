@@ -7,7 +7,7 @@ import os
 import json
 import io
 from PIL import Image
-import google.generativeai as genai
+from google import genai
 
 def clean_sketch(img):
     """
@@ -46,22 +46,20 @@ def clean_sketch(img):
 # API to use hugging face mode
 def analyze_with_vlm(image_bytes):
     """
-    Sends the raw image to Google's Gemini API to extract geometry data.
+    Sends the raw image to Google's modern Gemini API to extract geometry data.
     """
-    # API key
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         return {"error": "GEMINI_API_KEY is missing. Check .env file."}
 
     try:
-        # Configure the model flash 1.5, its fast and free
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-flash-latest')
+        # 1. The New SDK uses a dedicated Client object
+        client = genai.Client(api_key=api_key)
 
-        # Convert raw bytes into a format Gemini understands (PIL Image)
+        # 2. Convert raw bytes into a format Gemini understands
         image = Image.open(io.BytesIO(image_bytes))
 
-        # The Prompt
+        # 3. The Prompt
         prompt = """
         Analyze this hand-drawn geometry sketch. 
         Identify the shapes and any written dimensions. 
@@ -73,17 +71,19 @@ def analyze_with_vlm(image_bytes):
         Do not include any other text, markdown formatting, or code blocks. Just the raw JSON.
         """
 
-        # Send the image and prompt to Gemini
-        response = model.generate_content([prompt, image])
+        # 4. The New SDK Generation Syntax (Using the latest 2.5 Flash model)
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=[prompt, image]
+        )
         
-        # Clean up the response
+        # 5. Clean up the response
         text_response = response.text.strip()
         if text_response.startswith('```json'):
             text_response = text_response[7:-3].strip()
         elif text_response.startswith('```'):
             text_response = text_response[3:-3].strip()
 
-        # Convert the text into a real Python Dictionary
         return json.loads(text_response)
 
     except Exception as e:
