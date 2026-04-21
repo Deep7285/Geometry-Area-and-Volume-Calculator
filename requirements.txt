@@ -1,8 +1,8 @@
-﻿Flask
+Flask
 numpy
 opencv-python-headless
 requests
 python-dotenv
-google-generativeai
+google-genai
 Pillow
 gunicorn
