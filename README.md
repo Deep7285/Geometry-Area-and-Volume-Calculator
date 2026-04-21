@@ -1,4 +1,5 @@
-# 📐 Geometry Area & Vision Calculator using GenAI 🤖
+# 📐 Geometry Area & Vision Calculator using GenAI 🤖  
+A user-friendly web application built with Flask that allows you to calculate the area and volume of various 2D and 3D geometric shapes with customizable units.
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-Backend-green.svg)](https://flask.palletsprojects.com/)
@@ -6,8 +7,6 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://www.docker.com/)
 [![Hosted on Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97-Hugging_Face-yellow)](https://huggingface.co/spaces)
 
-# 📐 Geometry Area and Volume Calculator 📏
-A user-friendly web application built with Flask that allows you to calculate the area and volume of various 2D and 3D geometric shapes with customizable units.
 ## ✨ Key Features
 ### 📏 Standard Geometric Calculations
 * **2D Shapes:** Circle, Rectangle/Square, Triangle (Right, Equilateral, Isosceles, Scalene, ASA/SAS), Trapezium, Parallelogram, Pentagon, Hexagon, Rhombus, Ellipse, Sector.
@@ -26,14 +25,15 @@ A user-friendly web application built with Flask that allows you to calculate th
 
 1.  **Clone the repository:**
     ```bash
-   git clone [https://github.com/Deep7285/Geometry-Area-and-Volume-Calculator.git](https://github.com/Deep7285/Geometry-Area-and-Volume-Calculator.git)
-   cd Geometry-Area-and-Volume-Calculator
-    ```
-2.  **Create and activate a virtual environment:**  
+    git clone https://huggingface.co/spaces/Deep7285/Geometry-Calculator  
+    cd Geometry-Calculator
+    ```  
+2.  **Create and activate a virtual environment:**    
     ```bash
-        # On Windows:
+    # On Windows:
     python -m venv venv
     .\venv\Scripts\activate
+
     # On macOS/Linux:
     python3 -m venv venv
     source venv/bin/activate
@@ -50,6 +50,7 @@ A user-friendly web application built with Flask that allows you to calculate th
     GEMINI_API_KEY=your_actual_api_key_here
     ```  
     (Note: The .env file is included in .gitignore to prevent secret leakage).  
+
 5. **Run the Flask application:**
    for testing run the following in the terminal   
     ```bash
@@ -57,6 +58,7 @@ A user-friendly web application built with Flask that allows you to calculate th
     ```  
     this will open the localhost for test environment  
 6.  Open your web browser and navigate to `http://127.0.0.1:5000/`.  
+
 ## 🐳 Docker Support  
    This project includes a production-ready Dockerfile. To run it containerized:  
    ```bash
