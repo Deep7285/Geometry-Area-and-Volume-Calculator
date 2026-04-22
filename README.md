@@ -14,7 +14,7 @@ A user-friendly web application built with Flask that allows you to calculate th
 * **Dynamic Conversions:** Native support for Meters, Centimeters, Millimeters, Inches, and Feet.
 ### 🤖 AI Vision Sketch Recognition (Flagship Feature)
 * **Compound Geometry Parsing:** user can get answer for messy and hand-drawn complex and compound geometries by uploading/taking image of the sketch or printed shapes using the advanced **Vision-Language Model (VLM)**. (e.g., a rectangle with an attached semicircle).
-* **Zero-Retention Architecture:** Images are processed strictly in memory using the `google-genai` SDK and are never stored on the server.
+* **Zero-Retention Architecture:** Images are processed strictly in memory using the `google-genai` SDK and are never stored on the server and can **handle ~1000 requests/day**.
 * **Interactive "Review & Correct" UI:** The frontend dynamically generates an input form based on the AI's JSON output, allowing the user to review detected measurements and manually input any missing dimensions before executing the final math.  
 * Webpage screenshot <img width="1898" height="827" alt="Screenshot 2026-04-22 012938" src="https://github.com/user-attachments/assets/c91c6bde-6e24-42a3-aed6-832190004ae5" />
 
